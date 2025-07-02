@@ -1,0 +1,121 @@
+.register-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+  background-color: #111;
+  min-height: 100vh;
+}
+
+.register-form {
+  background-color: #1c1c1c;
+  padding: 2.5rem 2rem;
+  border-radius: 15px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 0 30px rgba(255, 140, 0, 0.1);
+  color: white;
+  position: relative;
+}
+
+.logo-wrapper {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-logo {
+  width: 100px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #ff6b00;
+  font-weight: 700;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 1px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #ccc;
+}
+
+.form-group input {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background-color: #2c2c2c;
+  color: white;
+  font-size: 1rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #ff8c00;
+  box-shadow: 0 0 10px #ff8c00;
+}
+
+/* Fire-style submit button */
+.fire-submit-button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ff4500, #ff8c00, #ffd700);
+  color: white;
+  box-shadow: 0 0 20px 5px rgba(255, 140, 0, 0.6);
+  animation: pulse-glow 1.5s infinite alternate, color-shift 6s infinite linear;
+  background-size: 300% 300%;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.fire-submit-button:hover {
+  transform: scale(1.05);
+}
+
+/* Fire Animations */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 10px 5px rgba(255, 69, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 25px 10px rgba(255, 215, 0, 0.7);
+  }
+}
+
+@keyframes color-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .register-form {
+    padding: 1.5rem 1rem;
+  }
+
+  .form-title {
+    font-size: 1.3rem;
+  }
+
+  .fire-submit-button {
+    font-size: 1rem;
+  }
+}

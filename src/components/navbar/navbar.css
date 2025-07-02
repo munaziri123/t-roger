@@ -155,6 +155,27 @@
   justify-content: center;
 }
 
+/* Mobile search + hamburger wrapper */
+.navbar-mobile-actions {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Search button on small screens */
+.mobile-search-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--color-text-light);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.mobile-search-btn:hover {
+  transform: scale(1.1);
+}
+
 /* Mobile menu styles */
 .navbar-mobile-menu {
   display: none;
@@ -189,10 +210,22 @@
   transform: translateY(-8px) rotate(-45deg);
 }
 
-/* Responsive styles */
+/* ===== Responsive styles ===== */
 @media (max-width: 1024px) {
   .navbar-search {
     display: none;
+  }
+
+  .navbar-actions {
+    display: none;
+  }
+
+  .navbar-mobile-actions {
+    display: flex;
+  }
+
+  .navbar-mobile-menu {
+    display: block;
   }
 }
 
@@ -201,12 +234,9 @@
     padding: 1rem;
   }
 
-  .navbar-links, .navbar-actions {
+  .navbar-links,
+  .navbar-actions {
     display: none;
-  }
-
-  .navbar-mobile-menu {
-    display: block;
   }
 
   .navbar-links.active {
@@ -226,6 +256,7 @@
     gap: 1.5rem;
   }
 }
+
 /* ===== Full-screen Mobile Modal Menu ===== */
 .mobile-nav-overlay {
   position: fixed;
@@ -277,3 +308,41 @@
 .mobile-nav-links a:hover {
   color: var(--color-secondary);
 }
+/* ===== Mobile Search Overlay ===== */
+.mobile-search-overlay {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(18, 18, 18, 0.95);
+  z-index: 9998;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.mobile-search-input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border-radius: 30px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+}
+
+.mobile-search-input:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-search-close {
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+

@@ -1,0 +1,126 @@
+.category-detail-wrapper {
+  max-width: 1100px;
+  margin: 2rem auto;
+  margin-top: 100px;
+  padding: 1rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: #ccc;
+}
+
+.category-detail-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-detail-image img {
+  max-width: 320px;
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.6);
+}
+
+.category-detail-text {
+  flex: 1;
+  min-width: 280px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: medium;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+.category-detail-text h2 {
+  font-size: 2rem;
+  color: #ff6600;
+  margin-bottom: 0.8rem;
+  margin-top: 30px;
+}
+
+.category-detail-text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.rewards-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.5rem;
+}
+
+.rewards-list li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+/* 🔥 Fire Button */
+.fire-buton {
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+.fire-buton::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, #ff0000, #ff6600, #ff0000);
+  animation: fireEffect 2s linear infinite;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.rewards-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.rewards-list li {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+
+@keyframes fireEffect {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.fire-buton:hover {
+  color: #ffd700;
+}
+
+/* 📱 Responsive for small screens */
+@media (max-width: 768px) {
+  .category-detail-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .category-detail-image img {
+    margin-bottom: 1rem;
+  }
+}

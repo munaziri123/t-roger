@@ -6,6 +6,8 @@ import logo from '../../assets/react.jpg';
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +25,10 @@ const Navbar = () => {
     setIsModalOpen(false);
   };
 
+  const toggleMobileSearch = () => {
+    setShowMobileSearch(prev => !prev);
+  };
+
   return (
     <>
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
@@ -34,9 +40,14 @@ const Navbar = () => {
             </a>
           </div>
 
-          {/* Search */}
+          {/* Desktop Search */}
           <div className="navbar-search">
-            <input type="text" placeholder="Search movies, shows..." />
+            <input
+              type="text"
+              placeholder="Search movies, shows..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
             <FaSearch className="search-icon" />
           </div>
 
@@ -50,7 +61,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          {/* User actions */}
+          {/* Desktop User Actions */}
           <div className="navbar-actions">
             <button className="notification-btn">
               <FaBell />
@@ -61,21 +72,42 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile hamburger icon */}
-          <div
-            className="navbar-mobile-menu"
-            onClick={toggleModal}
-            aria-expanded={isModalOpen}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && toggleModal()}
-          >
-            <FaBars size={22} />
+          {/* Mobile Actions */}
+          <div className="navbar-mobile-actions">
+            <button className="mobile-search-btn" onClick={toggleMobileSearch} aria-label="Search">
+              <FaSearch size={18} />
+            </button>
+            <div
+              className="navbar-mobile-menu"
+              onClick={toggleModal}
+              aria-expanded={isModalOpen}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && toggleModal()}
+            >
+              <FaBars size={22} />
+            </div>
           </div>
         </div>
       </nav>
 
-      {/* Full-screen white modal menu */}
+      {/* Mobile Search Overlay */}
+      {showMobileSearch && (
+        <div className="mobile-search-overlay">
+          <input
+            type="text"
+            placeholder="Search an event or show..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="mobile-search-input"
+          />
+          <button className="mobile-search-close" onClick={toggleMobileSearch}>
+            <FaTimes />
+          </button>
+        </div>
+      )}
+
+      {/* Mobile Navigation Modal */}
       {isModalOpen && (
         <div className="mobile-nav-overlay">
           <button className="close-button" onClick={closeModal}>
@@ -90,7 +122,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Prevent content overlap with fixed navbar */}
+      {/* Prevent overlap */}
       <div style={{ marginTop: '80px' }} />
     </>
   );

@@ -6,6 +6,7 @@ import tRogerImage2 from '../introduction_section/images/events_images/t-roger.p
 import tRogerImage3 from '../introduction_section/images/events_images/singing.png';
 import tRogerImage4 from '../introduction_section/images/events_images/cyangwe.png';
 import tRogerImage5 from '../introduction_section/images/events_images/sing.png';
+import { useNavigate } from 'react-router-dom';
 
 const IntroductionSection = () => {
   const images = [tRogerImage1, tRogerImage2, tRogerImage3, tRogerImage4, tRogerImage5];
@@ -25,6 +26,7 @@ const IntroductionSection = () => {
   const nextSlide = () => {
     setCurrent((current + 1) % images.length);
   };
+  const navigate = useNavigate();
 
   return (
     <section className="intro-wrapper">
@@ -45,7 +47,7 @@ const IntroductionSection = () => {
       <div className="fire-button-wrapper">
         <button
           className="fire-button"
-          onClick={() => alert('Upcoming events will be shown here!')}
+          onClick={() => navigate('/perform ')}
         >
           🔥 Click to Open Upcoming Events
         </button>

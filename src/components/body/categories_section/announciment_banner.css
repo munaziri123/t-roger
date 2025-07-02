@@ -1,0 +1,81 @@
+.event-announcement {
+  background: linear-gradient(145deg, #1a0000, #300000, #4b0000);
+  color: #ffe6e6;
+  padding: 2.5rem 2rem;
+  margin: 120px auto 60px;
+  border-radius: 16px;
+  text-align: center;
+  font-size: 1.2rem;
+  max-width: 1000px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 25px 5px rgba(255, 60, 0, 0.4);
+  animation: glow-pulse 2s infinite alternate;
+}
+
+.event-announcement strong {
+  color: #ff5733;
+  font-weight: 700;
+}
+
+.event-announcement .highlight {
+  color: #ffae00;
+  text-shadow: 0 0 8px #ffae00;
+}
+
+.event-announcement .emoji {
+  font-size: 1.5rem;
+  animation: fire-blink 1.5s infinite ease-in-out;
+}
+
+/* Flickering flames effect */
+.flames-top,
+.flames-bottom {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  background: radial-gradient(circle, #ff4500 20%, transparent 80%);
+  opacity: 0.6;
+  animation: flame-wave 1.5s infinite linear;
+  z-index: 0;
+}
+
+.flames-top {
+  top: 0;
+}
+
+.flames-bottom {
+  bottom: 0;
+}
+
+@keyframes fire-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+@keyframes flame-wave {
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 0; }
+}
+
+@keyframes glow-pulse {
+  0% {
+    box-shadow: 0 0 15px 5px rgba(255, 60, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 30px 10px rgba(255, 60, 0, 0.5);
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .event-announcement {
+    font-size: 1rem;
+    padding: 2rem 1rem;
+  }
+
+  .event-announcement .emoji {
+    font-size: 1.2rem;
+  }
+}

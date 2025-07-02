@@ -1,14 +1,10 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import Navbar from './components/navbar/navbar.jsx'
-import IntroductionSection from './components/body/introduction_section/intro_section.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App'; // ⬅️ Import the App with routing
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <>
-    < Navbar/>
-    <IntroductionSection/>
-    </>
+    <App />  {/* ⬅️ Use the router-enabled App */}
   </StrictMode>,
-)
+);
