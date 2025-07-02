@@ -96,7 +96,7 @@ const RegisterForm = () => {
           <input
             type="text"
             name="name"
-            placeholder="e.g. John Doe"
+            placeholder="e.g. T Roger"
             value={formData.name}
             onChange={handleChange}
             required
@@ -132,7 +132,7 @@ const RegisterForm = () => {
           <input
             type="text"
             name="district"
-            placeholder="e.g. Kigali"
+            placeholder="e.g. rusizi"
             value={formData.district}
             onChange={handleChange}
             required
@@ -144,7 +144,7 @@ const RegisterForm = () => {
           <input
             type="text"
             name="sector"
-            placeholder="e.g. Gasabo"
+            placeholder="e.g. mururu"
             value={formData.sector}
             onChange={handleChange}
             required
