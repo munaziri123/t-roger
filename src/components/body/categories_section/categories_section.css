@@ -1,6 +1,6 @@
 .categories-section {
   padding: 1rem;
-  padding-top: 1px; /* ✅ Prevent overlap with navbar */
+  padding-top: 40px; /* ✅ Prevent overlap with navbar */
   background-color: #111;
   color: white;
 }

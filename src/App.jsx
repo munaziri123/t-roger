@@ -5,6 +5,7 @@ import Navbar from './components/navbar/navbar.jsx';
 import CategoriesSection from './components/body/categories_section/categories.jsx';
 import CategoryDetails from './components/pages/category_details_page.jsx';
 import PerformancePage from './components/pages/performing_page.jsx';
+import PaymentPage from './components/pages/payment_page.jsx';
 import Footer from './components/footer/footer.jsx';
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
     <Route path="/categories" element={<CategoriesSection />} />
     <Route path="/category" element={<CategoryDetails />} />
     <Route path="/perform" element={<PerformancePage />} />
+    <Route path="/payment" element={<PaymentPage />} />
   </Routes>
   <Footer />
 </BrowserRouter>

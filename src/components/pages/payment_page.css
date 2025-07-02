@@ -1,0 +1,28 @@
+.payment-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff0f0;
+  padding: 20px;
+}
+
+.alert-box {
+  text-align: center;
+  background: #ffe5e5;
+  border: 2px solid #e63946;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 0 20px rgba(230, 57, 70, 0.2);
+}
+
+.alert-box h1 {
+  color: #e63946;
+  margin: 20px 0 10px;
+  font-size: 2rem;
+}
+
+.alert-box p {
+  font-size: 1.2rem;
+  color: #444;
+}

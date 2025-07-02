@@ -1,0 +1,121 @@
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-content {
+  text-align: center;
+}
+
+.static-logo {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+}
+
+.register-message {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+/* Only the loader spins */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #e63946; /* red spinner */
+  border-radius: 50%;
+  animation: spin-loader 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin-loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-content {
+  text-align: center;
+}
+
+.static-logo {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 20px;
+}
+
+.register-message {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+/* Spinner only */
+.spinner {
+  width: 100px;
+  height: 100px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #43c70f;
+  border-radius: 50%;
+  animation: spin-loader 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin-loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Success message */
+.register-success-container {
+  height: 100vh;
+  background: #e6fff2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.register-success-container h2 {
+  color: #2ecc71;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.register-success-container p {
+  font-size: 1.2rem;
+  color: #444;
+}

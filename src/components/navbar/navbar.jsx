@@ -44,7 +44,7 @@ const Navbar = () => {
           <div className="navbar-search">
             <input
               type="text"
-              placeholder="Search movies, shows..."
+              placeholder="Search events, shows..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -55,9 +55,9 @@ const Navbar = () => {
           <div className="navbar-links">
             <ul>
               <li><a href="/" className="nav-link active">Home</a></li>
-              <li><a href="/movies" className="nav-link">Events</a></li>
-              <li><a href="/tv" className="nav-link">TV Shows</a></li>
-              <li><a href="/events" className="nav-link">About us</a></li>
+              <li><a href="/categories" className="nav-link">Events</a></li>
+              <li><a href="/" className="nav-link">TV Shows</a></li>
+              <li><a href="/" className="nav-link">About us</a></li>
             </ul>
           </div>
 
