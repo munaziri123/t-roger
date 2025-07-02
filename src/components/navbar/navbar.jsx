@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Navbar.css';
+import './navbar.css';
 import { FaSearch, FaUserCircle, FaBell, FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../../assets/react.jpg';
 
