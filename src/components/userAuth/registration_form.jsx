@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import './registration_form.css';
 import '../pages/register_loader.css';
-import logo from '../../assets/react.jpg'; 
-import { databases } from '../../appwrite/appwrite_configuration';
+import logo from '../../assets/react.jpg';
+import { databases, ID } from '../../appwrite/appwrite_configuration';
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    email: '',
     category: '',
     district: '',
     sector: '',
@@ -27,35 +28,49 @@ const RegisterForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Generate a unique reference number
+    const refId = `MUNA-${Math.floor(100000 + Math.random() * 900000)}`;
+    const userData = { ...formData, refId };
+
     try {
+      // 1. Save user to Appwrite
       await databases.createDocument(
-        '6864c596000a79f621ee',    
-        '6864c74c000479f76901',   
-        'unique()',            
-        formData
+        '6864c596000a79f621ee', // your database ID
+        '6864c74c000479f76901', // your collection ID
+        ID.unique(),
+        userData
       );
 
-      // Show loading screen for 5 seconds
+      // 2. Send confirmation email via backend API
+      await fetch('https://t-roger-git-main-munaziri-josues-projects.vercel.app/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          refId: refId,
+        }),
+      });
+
+      // 3. Delay then redirect
       setTimeout(() => {
         setIsSubmitting(false);
         setIsSuccess(true);
-
-        // Reset form
         setFormData({
           name: '',
           phone: '',
+          email: '',
           category: '',
           district: '',
           sector: '',
         });
 
-        // Redirect after 3 seconds
         setTimeout(() => {
           window.location.href = '/payment';
         }, 3000);
       }, 5000);
     } catch (err) {
-      console.error('Error saving to Appwrite:', err);
+      console.error('Registration error:', err);
       alert('Something went wrong. Please try again.');
       setIsSubmitting(false);
     }
@@ -116,6 +131,18 @@ const RegisterForm = () => {
         </div>
 
         <div className="form-group">
+          <label>Email Address</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="e.g. you@example.com"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
           <label>Performing Category</label>
           <input
             type="text"
@@ -132,7 +159,7 @@ const RegisterForm = () => {
           <input
             type="text"
             name="district"
-            placeholder="e.g. rusizi"
+            placeholder="e.g. Rusizi"
             value={formData.district}
             onChange={handleChange}
             required
@@ -144,7 +171,7 @@ const RegisterForm = () => {
           <input
             type="text"
             name="sector"
-            placeholder="e.g. mururu"
+            placeholder="e.g. Mururu"
             value={formData.sector}
             onChange={handleChange}
             required
