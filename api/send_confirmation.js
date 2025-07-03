@@ -26,12 +26,12 @@ export default async function handler(req, res) {
   const mailOptions = {
     from: `"T-Roger Family" <${process.env.SENDER_EMAIL}>`,
     to: email,
-    subject: '🎉 Welcome to T-Roger Family!',
+    subject: '🎉 Welcome to T-Roger Family Competition!',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e5e5e5; border-radius: 10px; background-color: #f9f9f9;">
         <div style="text-align: center; margin-bottom: 20px;">
           <img src="https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg" alt="T-Roger Logo" width="100" />
-          <h2 style="color:rgb(99, 10, 18);">Welcome to T-Roger Talent Family 🎉</h2>
+          <h2 style="color:rgb(99, 10, 18);">Welcome to T-Roger Talent Family Competition 🎉</h2>
         </div>
 
         <p>Dear <strong>${name}</strong>,</p>
