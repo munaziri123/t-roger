@@ -18,7 +18,7 @@ const RegisterForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleChange = (e) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -28,31 +28,39 @@ const RegisterForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Generate a unique reference number
     const refId = `MUNA-${Math.floor(100000 + Math.random() * 900000)}`;
     const userData = { ...formData, refId };
 
     try {
-      // 1. Save user to Appwrite
+      // Save user to Appwrite
       await databases.createDocument(
-        '6864c596000a79f621ee', // your database ID
-        '6864c74c000479f76901', // your collection ID
+        '6864c596000a79f621ee', // database ID
+        '6864c74c000479f76901', // collection ID
         ID.unique(),
         userData
       );
 
-      // 2. Send confirmation email via backend API
-      await fetch('https://t-roger-git-main-munaziri-josues-projects.vercel.app/api/send_confirmation', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          refId: refId,
-        }),
-      });
+      // Send confirmation email via backend API
+      const response = await fetch(
+        'https://t-roger-git-main-munaziri-josues-projects.vercel.app/api/send_confirmation',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            refId,
+          }),
+        }
+      );
 
-      // 3. Delay then redirect
+      const data = await response.json();
+      if (!data.success) {
+        console.error('Email sending failed:', data.error);
+        alert('Registration saved, but email sending failed.');
+      }
+
+      // Show success message and redirect
       setTimeout(() => {
         setIsSubmitting(false);
         setIsSuccess(true);
