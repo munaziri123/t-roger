@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,72 +12,97 @@
 }
 
 .modal {
-  background: white;
+  background: #1a1a1a;
+  color: #fff;
   padding: 2rem;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 520px;
   position: relative;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 12px;
+  top: 12px;
+  right: 14px;
   border: none;
   background: none;
-  font-size: 20px;
+  font-size: 24px;
+  color: #fff;
   cursor: pointer;
+}
+
+h3 {
+  color: #FFCC00;
+  margin-bottom: 1rem;
+  font-size: 22px;
 }
 
 .payment-options ul {
   list-style: none;
   padding: 0;
   display: flex;
-  gap: 1rem;
+  gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
 .payment-options li {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 10px 16px;
+  background-color: #333;
+  border-radius: 6px;
   cursor: pointer;
+  color: #fff;
+  border: 1px solid #444;
+  transition: background-color 0.2s ease;
 }
 
 .payment-options .active {
-  background-color: #ffe066;
-  border-color: #ffcd00;
-}
-
-.mtn-instructions {
-  margin-top: 1rem;
+  background-color: #FFCC00;
+  color: #000;
+  font-weight: bold;
 }
 
 .ussd-code {
-  font-size: 18px;
-  background-color: #e9f5ff;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  margin: 0.5rem 0;
+  background-color: #333;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+  color: #FFCC00;
+  margin: 10px 0;
 }
 
 .mtn-instructions input {
   width: 100%;
-  padding: 10px;
-  margin-top: 0.5rem;
+  padding: 12px;
+  margin-top: 0.7rem;
   margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #2a2a2a;
+  color: #fff;
 }
 
 .pay-now {
-  background-color: #38b000;
-  color: white;
-  border: none;
+  background-color: #FFCC00;
+  color: #000;
+  font-weight: bold;
+  font-size: 16px;
   padding: 12px;
   width: 100%;
-  border-radius: 5px;
-  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.pay-now:hover {
+  background-color: #e6b800;
+}
+
+.pay-now:disabled {
+  background-color: #555;
+  cursor: not-allowed;
 }
