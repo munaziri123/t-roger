@@ -16,6 +16,7 @@ const PaymentModal = ({ onClose }) => {
         <p className="modal-description">
           We are currently working hard to enable <strong>direct online payment</strong> on our platform. 🙏  
           While this feature is still under development, you can proceed by paying through the <strong>MTN MoMo code</strong> below.
+          <p className='code-box'>MTN MoMo Code: 12345678</p>
         </p>
 
         <p className="modal-description">

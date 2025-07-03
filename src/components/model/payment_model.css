@@ -147,3 +147,13 @@ h3 {
 .pay-now:disabled:hover {
   background-color: #ccc; /* light gray */
 }
+.code-box {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 18px;
+  color: #FFCC00;
+  text-align: center;
+  margin-bottom: 1rem;
+}
