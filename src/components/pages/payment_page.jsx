@@ -29,7 +29,7 @@ const PaymentPage = () => {
         </p>
 
         <p><strong>Kode yo kwishyuriraho:</strong> 880703239619</p>
-        <p><strong>Ikiguzi cya serivisi:</strong> RWF 500</p>
+        <p><strong>Ikiguzi cya serivisi:</strong> RWF 10,000</p>
         
         <button onClick={handleOpenModal} className="pay-btn">Ishyura</button>
       </div>

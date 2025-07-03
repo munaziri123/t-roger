@@ -1,4 +1,5 @@
 import React from 'react';
+import { AlertTriangle } from 'lucide-react';
 import '../model/payment_model.css';
 
 const PaymentModal = ({ onClose }) => {
@@ -6,28 +7,20 @@ const PaymentModal = ({ onClose }) => {
     <div className="modal-overlay">
       <div className="modal">
         <button className="close-btn" onClick={onClose}>X</button>
-        
-        <h3>Ni gute wifuza kwishyura?</h3>
 
-        <div className="payment-options">
-          <ul>
-            <li className="active">MTN Mobile Money</li>
-            <li>Airtel Money</li>
-            <li>Ikarta ya Banki</li>
-            <li>Amafaranga mu ntoki / Ejenti</li>
-            <li>Konti za banki</li>
-          </ul>
+        <div className="modal-header">
+          <AlertTriangle size={32} color="#FFCC00" style={{ marginRight: '10px' }} />
+          <h3>Important Payment Information</h3>
         </div>
 
-        <div className="mtn-instructions">
-          <p>Kanda ino mibare kuri telefone yawe ya MTN maze wishyure:</p>
-          <div className="ussd-code">
-            <span>*182*3*7*880703239619#</span>
-          </div>
-          <p>Cyangwa ushyiremo numero yawe ya MTN MoMo maze wishyure</p>
-          <input type="text" placeholder="ex: 078/9xxxxxxx" />
-          <button className="pay-now">Ishyura 500 RWF</button>
-        </div>
+        <p className="modal-description">
+          We are currently working hard to enable <strong>direct online payment</strong> on our platform. 🙏  
+          While this feature is still under development, you can proceed by paying through the <strong>MTN MoMo code</strong> provided below.
+        </p>
+
+        <p className="modal-description">
+          Once your payment is received, your <strong>Performer Badge</strong> and <strong>Entry Letter</strong> will be sent to you via email. Thank you for your understanding and patience.
+        </p>
       </div>
     </div>
   );
