@@ -32,7 +32,7 @@ const PaymentModal = ({ onClose }) => {
 
         <a
           className="whatsapp-icon-btn"
-          href="https://wa.me/250782057755?text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20the%20payment%20process."
+          href="https://wa.me/213665239048?text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20the%20payment%20process."
           target="_blank"
           rel="noopener noreferrer"
         >
