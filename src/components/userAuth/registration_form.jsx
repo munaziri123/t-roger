@@ -153,20 +153,14 @@ const RegisterForm = () => {
 
         <div className="form-group">
           <label>Performing Category</label>
-          <select
+          <input
+            type="text"
             name="category"
+            placeholder="e.g. Singer, Dancer, DJ..."
             value={formData.category}
             onChange={handleChange}
             required
-          >
-            <option value="" disabled>Select a category</option>
-            <option value="Singer">Singer</option>
-            <option value="Comedian">Comedian</option>
-            <option value="Dancer">Dancer</option>
-            <option value="DJ">DJ</option>
-            <option value="Poet">Poet (someone who does poetry)</option>
-            <option value="Journalist">Journalist</option>
-          </select>
+          />
         </div>
 
         <div className="form-group">

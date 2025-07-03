@@ -1,15 +1,28 @@
-import React from 'react';
-import { AlertTriangle } from 'lucide-react'; // Use lucide-react icons
+import React, { useState } from 'react';
+import PaymentModal from '../model/payment_model';
 import './payment_page.css';
 
 const PaymentPage = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="payment-container">
-      <div className="alert-box">
-        <AlertTriangle size={60} color="#e63946" />
-        <h1>⚠️ Payment Page Coming Soon!</h1>
-        <p>We’re working hard to bring this feature to you. Please stay tuned!</p>
+      <div className="confirmation-box">
+        <h2>Dosiye yawe isaba icyemezo cy’amavuko yakozwe neza</h2>
+        <p><strong>Kode yo kwishyuriraho:</strong> 880703239619</p>
+        <p><strong>Ikiguzi cya serivisi:</strong> RWF 500</p>
+        <button onClick={handleOpenModal} className="pay-btn">Ishyura</button>
       </div>
+
+      {showModal && <PaymentModal onClose={handleCloseModal} />}
     </div>
   );
 };
