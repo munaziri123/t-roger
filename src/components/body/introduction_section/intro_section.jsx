@@ -37,7 +37,7 @@ const IntroductionSection = () => {
           <p>
             Where Talent Meets Opportunity and Dreams Take the Stage. At T-Roger 
             Family,
-            we live and breathe talent. From raw, undiscovered potential to polished champions,
+            we live and breathe talent., undiscovered potential to polished champions,
             our mission is to find the stars of tomorrow and help them shine today. Whether it’s
             music, sports, dance, art, or beyond—we scout, nurture, and elevate individuals with
             passion and purpose. We also create unforgettable experiences through professionally
