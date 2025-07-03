@@ -42,7 +42,7 @@ const RegisterForm = () => {
       );
 
       // 2. Send confirmation email via backend API
-      await fetch('https://t-roger-git-main-munaziri-josues-projects.vercel.app/api/send-confirmation', {
+      await fetch('https://t-roger-git-main-munaziri-josues-projects.vercel.app/api/send_confirmation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
