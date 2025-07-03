@@ -32,16 +32,16 @@ const RegisterForm = () => {
     const userData = { ...formData, refId };
 
     try {
-      // Save user to Appwrite
+      // Save to Appwrite
       await databases.createDocument(
-        '6864c596000a79f621ee', // database ID
-        '6864c74c000479f76901', // collection ID
+        '6864c596000a79f621ee',
+        '6864c74c000479f76901',
         ID.unique(),
         userData
       );
 
-      // Send confirmation email via backend API
-      const response = await fetch(
+      // Send confirmation email
+      const emailRes = await fetch(
         'https://t-roger-git-main-munaziri-josues-projects.vercel.app/api/send_confirmation',
         {
           method: 'POST',
@@ -55,13 +55,13 @@ const RegisterForm = () => {
         }
       );
 
-      const data = await response.json();
-      if (!data.success) {
-        console.error('Email sending failed:', data.error);
+      if (!emailRes.ok) {
+        const errData = await emailRes.json().catch(() => ({}));
+        console.warn('⚠️ Email sending failed:', errData?.message || emailRes.statusText);
         alert('Registration saved, but email sending failed.');
       }
 
-      // Show success message and redirect
+      // Success: reset and redirect
       setTimeout(() => {
         setIsSubmitting(false);
         setIsSuccess(true);
@@ -77,7 +77,7 @@ const RegisterForm = () => {
         setTimeout(() => {
           window.location.href = '/payment';
         }, 3000);
-      }, 5000);
+      }, 3000);
     } catch (err) {
       console.error('Registration error:', err);
       alert('Something went wrong. Please try again.');
