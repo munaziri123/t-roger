@@ -1,16 +1,18 @@
+/* Modal Container */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
+/* Modal Box */
 .modal {
   background: #1a1a1a;
   color: #fff;
@@ -22,6 +24,7 @@
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
+/* Close Button */
 .close-btn {
   position: absolute;
   top: 12px;
@@ -33,12 +36,79 @@
   cursor: pointer;
 }
 
-h3 {
-  color: #FFCC00;
+/* Header + Icon */
+.modal-header {
+  display: flex;
+  align-items: center;
   margin-bottom: 1rem;
-  font-size: 22px;
 }
 
+h3 {
+  color: #FFCC00;
+  font-size: 22px;
+  margin: 0;
+}
+
+/* Description Paragraphs */
+.modal-description {
+  color: #eee;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* MoMo Code Label + Box */
+.code-label {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.code-box {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 18px;
+  color: #FFCC00;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* MTN Input Field */
+.mtn-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #888;
+  background-color: #1e1e1e;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+/* Pay Button */
+.pay-now {
+  background-color: #FFCC00;
+  color: #000;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pay-now:hover {
+  background-color: #e6b800;
+}
+
+.pay-now:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+/* Optional Payment Options */
 .payment-options ul {
   list-style: none;
   padding: 0;
@@ -64,45 +134,6 @@ h3 {
   font-weight: bold;
 }
 
-.ussd-code {
-  background-color: #333;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 16px;
-  text-align: center;
-  font-weight: bold;
-  color: #FFCC00;
-  margin: 10px 0;
-}
-
-.mtn-instructions input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 0.7rem;
-  margin-bottom: 1rem;
-  border: 1px solid #555;
-  border-radius: 6px;
-  background-color: #2a2a2a;
-  color: #fff;
-}
-
-.pay-now {
-  background-color: #FFCC00;
-  color: #000;
-  font-weight: bold;
-  font-size: 16px;
-  padding: 12px;
-  width: 100%;
-  border: none;
-  border-radius: 6px;
-  transition: background-color 0.3s ease;
-}
-
-.pay-now:hover {
-  background-color: #e6b800;
-}
-
-.pay-now:disabled {
-  background-color: #555;
-  cursor: not-allowed;
+.payment-options li:hover {
+  background-color: #444;
 }

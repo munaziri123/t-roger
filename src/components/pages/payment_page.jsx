@@ -17,7 +17,7 @@ const PaymentPage = () => {
     <div className="payment-container">
       <div className="confirmation-box">
         <h2>Registration Payment Required</h2>
-        
+
         <p>
           You have been successfully registered to perform at the upcoming event, proudly sponsored by the <strong>T-Roger Family</strong>.
         </p>
@@ -28,9 +28,11 @@ const PaymentPage = () => {
           Please click <strong>"Ishyura"</strong> below to proceed with payment.
         </p>
 
-        <p><strong>Kode yo kwishyuriraho:</strong> 880703239619</p>
+        <p className="code-label">Kode yo kwishyuriraho:</p>
+        <div className="code-box">880703239619</div>
+
         <p><strong>Ikiguzi cya serivisi:</strong> RWF 10,000</p>
-        
+
         <button onClick={handleOpenModal} className="pay-btn">Ishyura</button>
       </div>
 
