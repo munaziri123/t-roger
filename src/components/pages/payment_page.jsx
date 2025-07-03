@@ -29,7 +29,7 @@ const PaymentPage = () => {
         </p>
 
         <p className="code-label">Kode yo kwishyuriraho:</p>
-        <div className="code-box">880703239619</div>
+        <div className="code-box">123455678</div>
 
         <p><strong>Ikiguzi cya serivisi:</strong> RWF 10,000</p>
 

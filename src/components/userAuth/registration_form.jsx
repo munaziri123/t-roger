@@ -156,7 +156,7 @@ const RegisterForm = () => {
           <input
             type="text"
             name="category"
-            placeholder="e.g. Singer, Dancer, DJ..."
+            placeholder="e.g. Singer, Dancer, DJ, Acter, Poet, Journalist"
             value={formData.category}
             onChange={handleChange}
             required

@@ -21,7 +21,7 @@ const PaymentModal = ({ onClose }) => {
         </p>
 
         <p className="modal-description">
-          Once your payment is received, your <strong>Performer Badge</strong> and <strong>Entry Letter</strong> will be sent to you via email. Thank you for your understanding and patience.
+          Once your payment is received, your <strong>Competition Badge</strong> and <strong>Entrance Letter</strong> will be sent to you via email. Thank you for your understanding and patience.
         </p>
 
         <button className="pay-now" disabled>Ishyura 10,000 RWF</button>
