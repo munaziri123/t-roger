@@ -49,6 +49,7 @@ const RegisterForm = () => {
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
+            category: formData.category,
             refId,
           }),
         }
