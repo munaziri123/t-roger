@@ -28,7 +28,10 @@ const RegisterForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const refId = `MUNA-${Math.floor(100000 + Math.random() * 900000)}`;
+const randomNumber = Math.floor(100000 + Math.random() * 900000);
+const namePrefix = formData.name.trim().substring(0, 4).toUpperCase();
+const refId = `TRF${randomNumber}${namePrefix}`;
+
     const userData = { ...formData, refId };
 
     try {

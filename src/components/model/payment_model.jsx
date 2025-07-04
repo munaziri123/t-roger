@@ -29,7 +29,11 @@ const PaymentModal = ({ onClose }) => {
 
     const { name, category, refId } = data;
 
-    const doc = new jsPDF();
+  const doc = new jsPDF({
+  unit: 'mm',
+  format: 'a4',
+});
+
 
     const logoUrl =
       'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg';
@@ -46,7 +50,7 @@ const PaymentModal = ({ onClose }) => {
 
     doc.setFontSize(18);
     doc.setFont('helvetica', 'bold');
-    doc.text('T-ROGER FAMILY ENTRANCE LETTER', 20, 30);
+    doc.text('T-ROGER FAMILY COMPETITION ENTRANCE LETTER', 20, 30);
 
     doc.setLineWidth(0.5);
     doc.line(20, 35, 190, 35);
@@ -56,7 +60,7 @@ const PaymentModal = ({ onClose }) => {
 
     doc.text(`Dear ${name},`, 20, 50);
     doc.text(
-      `You have successfully registered as a performer in the category of "${category}".`,
+      `You have successfully registered as a Competitor in the category of "${category}".`,
       20,
       60
     );
