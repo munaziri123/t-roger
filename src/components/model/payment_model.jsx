@@ -35,11 +35,14 @@ const PaymentModal = ({ onClose }) => {
 });
 
 
-    const logoUrl =
-      'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg';
+    const logoUrl = 'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg';
+    const signUrl = 'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/signature.png';
+
     let logoBase64 = '';
+    let signBase64 = '';
     try {
       logoBase64 = await getBase64FromUrl(logoUrl);
+      signBase64 = await getBase64FromUrl(signUrl);
     } catch (error) {
       console.warn('Failed to load logo image', error);
     }
@@ -96,6 +99,9 @@ const PaymentModal = ({ onClose }) => {
     doc.text('IRADUKUNDA Thierry Roger', 20, 170);
     doc.setFont('helvetica', 'normal');
     doc.text('CEO, T-Roger Talent Family', 20, 180);
+      if (signBase64) {
+      doc.addImage(signBase64, 'PNG', 140, 155, 50, 20);
+    }
 
     return doc;
   };
