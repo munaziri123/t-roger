@@ -13,7 +13,7 @@ const PaymentModal = ({ onClose }) => {
 
     // Simulate processing delay
     setTimeout(() => {
-      const data = JSON.parse(localStorage.getItem('registrationData'));
+     const data = JSON.parse(localStorage.getItem('munaUser'));
       if (!data) {
         alert('No registration data found.');
         setProcessing(false);
