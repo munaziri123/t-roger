@@ -20,95 +20,85 @@ const PaymentModal = ({ onClose }) => {
     });
   };
 
- const generatePdf = async () => {
-  const data = JSON.parse(localStorage.getItem('munaUser'));
-  if (!data) {
-    alert('No registration data found.');
-    return null;
-  }
+  const generatePdf = async () => {
+    const data = JSON.parse(localStorage.getItem('munaUser'));
+    if (!data) {
+      alert('No registration data found.');
+      return null;
+    }
 
-  const { name, category, refId } = data;
+    const { name, category, refId } = data;
 
   const doc = new jsPDF({
-    unit: 'mm',
-    format: 'a4',
-  });
+  unit: 'mm',
+  format: 'a4',
+});
 
-  const logoUrl =
-    'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg';
-  let logoBase64 = '';
-  try {
-    logoBase64 = await getBase64FromUrl(logoUrl);
-  } catch (error) {
-    console.warn('Failed to load logo image', error);
-  }
 
-  if (logoBase64) {
-    doc.addImage(logoBase64, 'JPEG', 150, 10, 40, 20);
-  }
+    const logoUrl =
+      'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg';
+    let logoBase64 = '';
+    try {
+      logoBase64 = await getBase64FromUrl(logoUrl);
+    } catch (error) {
+      console.warn('Failed to load logo image', error);
+    }
 
-  doc.setFontSize(18);
-  doc.setFont('helvetica', 'bold');
-  doc.text('T-ROGER FAMILY COMPETITION ENTRANCE LETTER', 20, 30);
+    if (logoBase64) {
+      doc.addImage(logoBase64, 'JPEG', 150, 10, 40, 20);
+    }
 
-  doc.setLineWidth(0.5);
-  doc.line(20, 35, 190, 35);
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.text('T-ROGER FAMILY COMPETITION ENTRANCE LETTER', 20, 30);
 
-  doc.setFontSize(12);
+    doc.setLineWidth(0.5);
+    doc.line(20, 35, 190, 35);
 
-  // Dear [Name]
-  doc.setFont('helvetica', 'normal');
-  doc.text('Dear ', 20, 50);
-  doc.setFont('helvetica', 'bold');
-  doc.text(name, 50, 50);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
 
-  doc.setFont('helvetica', 'normal');
-  doc.text(
-    `You have successfully registered as a Competitor in the category of "${category}".`,
-    20,
-    60
-  );
+    doc.text(`Dear ${name},`, 20, 50);
+    doc.text(
+      `You have successfully registered as a Competitor in the category of "${category}".`,
+      20,
+      60
+    );
+    doc.text(`Your registration number is: ${refId}`, 20, 70);
 
-  // Registration number with bold refId
-  doc.setFont('helvetica', 'normal');
-  doc.text('Your registration number is: ', 20, 70);
-  doc.setFont('helvetica', 'bold');
-  doc.text(refId, 85, 70);
+    doc.text('Competition Details:', 20, 85);
 
-  doc.text('Competition Details:', 20, 85);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Location:', 30, 95);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Kigali Convention Center', 60, 95);
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('Location:', 30, 95);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Kigali Convention Center', 60, 95);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Date:', 30, 105);
+    doc.setFont('helvetica', 'normal');
+    doc.text('1st September 2025', 60, 105);
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('Date:', 30, 105);
-  doc.setFont('helvetica', 'normal');
-  doc.text('1st September 2025', 60, 105);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Amount Paid:', 30, 115);
+    doc.setFont('helvetica', 'normal');
+    doc.text('10,000 RWF', 60, 115);
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('Amount Paid:', 30, 115);
-  doc.setFont('helvetica', 'normal');
-  doc.text('10,000 RWF', 60, 115);
+    doc.setFont('helvetica', 'normal');
+    doc.text(
+      'Thank you for joining the T-Roger family. We look forward to your performance!',
+      20,
+      135,
+      { maxWidth: 170 }
+    );
 
-  doc.setFont('helvetica', 'normal');
-  doc.text(
-    'Thank you for joining the T-Roger family. We look forward to your performance!',
-    20,
-    135,
-    { maxWidth: 170 }
-  );
+    doc.setFont('helvetica', 'bold');
+    doc.text('Signed by:', 20, 160);
+    doc.text('IRADUKUNDA Thierry Roger', 20, 170);
+    doc.setFont('helvetica', 'normal');
+    doc.text('CEO, T-Roger Talent Family', 20, 180);
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('Signed by:', 20, 160);
-  doc.text('IRADUKUNDA Thierry Roger', 20, 170);
-  doc.setFont('helvetica', 'normal');
-  doc.text('CEO, T-Roger Talent Family', 20, 180);
-
-  return doc;
-};
-
+    return doc;
+  };
 
   const handlePayment = async () => {
     setProcessing(true);
