@@ -29,11 +29,10 @@ const PaymentModal = ({ onClose }) => {
 
     const { name, category, refId } = data;
 
-  const doc = new jsPDF({
-  unit: 'mm',
-  format: 'a4',
-});
-
+    const doc = new jsPDF({
+      unit: 'mm',
+      format: 'a4',
+    });
 
     const logoUrl = 'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg';
     const signUrl = 'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/signature.png';
@@ -44,7 +43,7 @@ const PaymentModal = ({ onClose }) => {
       logoBase64 = await getBase64FromUrl(logoUrl);
       signBase64 = await getBase64FromUrl(signUrl);
     } catch (error) {
-      console.warn('Failed to load logo image', error);
+      console.warn('Failed to load logo or signature image', error);
     }
 
     if (logoBase64) {
@@ -60,7 +59,6 @@ const PaymentModal = ({ onClose }) => {
 
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-
     doc.text(`Dear ${name},`, 20, 50);
     doc.text(
       `You have successfully registered as a Competitor in the category of "${category}".`,
@@ -98,9 +96,10 @@ const PaymentModal = ({ onClose }) => {
     doc.text('Signed by:', 20, 160);
     doc.text('IRADUKUNDA Thierry Roger', 20, 170);
     doc.setFont('helvetica', 'normal');
-    doc.text('CEO, T-Roger Talent Family', 20, 180);
-      if (signBase64) {
-      doc.addImage(signBase64, 'PNG', 140, 155, 50, 20);
+    doc.text('CEO, T-Roger Talent Family', 20, 178);
+
+    if (signBase64) {
+      doc.addImage(signBase64, 'PNG', 20, 182, 50, 20); // Signature placed under CEO name
     }
 
     return doc;
@@ -149,8 +148,8 @@ const PaymentModal = ({ onClose }) => {
             </div>
 
             <p className="modal-description">
-              We are currently working hard to enable <strong>direct online payment</strong> on
-              our platform. 🙏 Until then, please pay using the <strong>MTN MoMo code</strong> below.
+              We are currently working hard to enable <strong>direct online payment</strong> on our
+              platform. 🙏 Until then, please pay using the <strong>MTN MoMo code</strong> below.
             </p>
 
             <p className="code-box">MTN MoMo Code: 12345678</p>
