@@ -96,11 +96,10 @@ const PaymentModal = ({ onClose }) => {
     doc.text('Signed by:', 20, 160);
     doc.text('IRADUKUNDA Thierry Roger', 20, 170);
     doc.setFont('helvetica', 'normal');
-    doc.text('CEO, T-Roger Talent Family', 20, 178);
-
     if (signBase64) {
-      doc.addImage(signBase64, 'PNG', 20, 182, 50, 20); // Signature placed under CEO name
+      doc.addImage(signBase64, 'PNG', 20, 182, 50, 20);
     }
+    doc.text('CEO, T-Roger Talent Family', 20, 178);
 
     return doc;
   };
