@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
 import '../model/payment_model.css';
 
 const PaymentModal = ({ onClose }) => {
@@ -11,9 +10,8 @@ const PaymentModal = ({ onClose }) => {
   const handlePayment = () => {
     setProcessing(true);
 
-    // Simulate processing delay
     setTimeout(() => {
-     const data = JSON.parse(localStorage.getItem('munaUser'));
+      const data = JSON.parse(localStorage.getItem('munaUser'));
       if (!data) {
         alert('No registration data found.');
         setProcessing(false);
@@ -24,45 +22,78 @@ const PaymentModal = ({ onClose }) => {
 
       const doc = new jsPDF();
 
-      doc.setFontSize(18);
-      doc.text('🎫 T-ROGER FAMILY ENTRANCE LETTER 🎫', 20, 25);
-
-      // Add logo (optional: hosted on GitHub or public folder)
+      // Add Logo (resize and position on top-right)
       const logoUrl = 'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg';
-      doc.addImage(logoUrl, 'JPEG', 150, 10, 40, 20);
+      // To avoid async issues, we will addImage later via callback or pre-load; for now omit or add manually
 
-      doc.setFontSize(12);
-      doc.text(`Dear ${name},`, 20, 50);
-      doc.text(`You have successfully registered as a performer in the category of "${category}".`, 20, 60);
-      doc.text(`Your registration number is:`, 20, 70);
-      doc.setFontSize(14);
-      doc.setTextColor(0, 0, 255);
-      doc.text(refId || 'MUNA-XXXXXX', 20, 78);
-
-      doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      doc.text(`📍 Competition Location: Kigali Convention Center`, 20, 95);
-      doc.text(`📅 Competition Date: 1st September 2025`, 20, 105);
-      doc.text(`💰 Amount Paid: 10,000 RWF`, 20, 115);
-
-      doc.text(`\nThank you for joining the T-Roger family. We look forward to your performance!`, 20, 130);
-
-      doc.setFontSize(12);
-      doc.text(`\nSigned by:`, 20, 150);
+      // Title
+      doc.setFontSize(18);
       doc.setFont('helvetica', 'bold');
-      doc.text(`IRADUKUNDA Thierry Roger`, 20, 160);
-      doc.setFont('helvetica', 'normal');
-      doc.text(`CEO, T-Roger Talent Family`, 20, 168);
+      doc.text('T-ROGER FAMILY ENTRANCE LETTER', 20, 30);
 
-      doc.save(`T-Roger_Entrance_Letter_${refId || 'MUNA'}.pdf`);
+      doc.setLineWidth(0.5);
+      doc.line(20, 35, 190, 35); // underline
+
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+
+      doc.text(`Dear ${name},`, 20, 50);
+
+      doc.text(
+        `You have successfully registered as a performer in the category of "${category}".`,
+        20,
+        60
+      );
+
+      doc.text(`Your registration number is: ${refId}`, 20, 70);
+
+      doc.text('Competition Details:', 20, 85);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text('Location:', 30, 95);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Kigali Convention Center', 60, 95);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text('Date:', 30, 105);
+      doc.setFont('helvetica', 'normal');
+      doc.text('1st September 2025', 60, 105);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text('Amount Paid:', 30, 115);
+      doc.setFont('helvetica', 'normal');
+      doc.text('10,000 RWF', 60, 115);
+
+      doc.setFont('helvetica', 'normal');
+      doc.text(
+        'Thank you for joining the T-Roger family. We look forward to your performance!',
+        20,
+        135,
+        { maxWidth: 170 }
+      );
+
+      doc.setFont('helvetica', 'bold');
+      doc.text('Signed by:', 20, 160);
+      doc.text('IRADUKUNDA Thierry Roger', 20, 170);
+      doc.setFont('helvetica', 'normal');
+      doc.text('CEO, T-Roger Talent Family', 20, 180);
+
+      // Optional: Add logo at top right (load as base64 for best result)
+      // For now, commented out because addImage expects base64 or already loaded image.
+      // doc.addImage(logoUrl, 'JPEG', 150, 10, 40, 20);
+
+      doc.save(`T-Roger_Entrance_Letter_${refId}.pdf`);
+
       setProcessing(false);
-    }, 3000); // 3s simulation
+    }, 3000);
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="close-btn" onClick={onClose}>X</button>
+        <button className="close-btn" onClick={onClose}>
+          X
+        </button>
 
         <div className="modal-header">
           <AlertTriangle size={32} color="#FFCC00" style={{ marginRight: '10px' }} />
@@ -70,8 +101,8 @@ const PaymentModal = ({ onClose }) => {
         </div>
 
         <p className="modal-description">
-          We are currently working hard to enable <strong>direct online payment</strong> on our platform. 🙏
-          Until then, please pay using the <strong>MTN MoMo code</strong> below.
+          We are currently working hard to enable <strong>direct online payment</strong> on our
+          platform. 🙏 Until then, please pay using the <strong>MTN MoMo code</strong> below.
         </p>
 
         <p className="code-box">MTN MoMo Code: 12345678</p>
