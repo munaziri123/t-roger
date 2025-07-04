@@ -182,3 +182,25 @@ h3 {
 .pay-now:disabled:hover {
   background-color: #ccc;
 }
+/* Style for the congrats popup OK button */
+.congrats-popup {
+  text-align: center;
+  padding: 20px;
+}
+
+.ok-btn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  background-color: #0070f3; /* nice blue */
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.25s ease;
+}
+
+.ok-btn:hover {
+  background-color: #005bb5;
+}
