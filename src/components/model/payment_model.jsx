@@ -29,21 +29,27 @@ const PaymentModal = ({ onClose }) => {
 
     const { name, category, refId } = data;
 
-  const doc = new jsPDF({
-  unit: 'mm',
-  format: 'a4',
-});
-
+    const doc = new jsPDF({
+      unit: 'mm',
+      format: 'a4',
+    });
 
     const logoUrl =
       'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg';
+    const signatureUrl =
+      'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/signature.png';
+
     let logoBase64 = '';
+    let signatureBase64 = '';
+
     try {
       logoBase64 = await getBase64FromUrl(logoUrl);
+      signatureBase64 = await getBase64FromUrl(signatureUrl);
     } catch (error) {
-      console.warn('Failed to load logo image', error);
+      console.warn('Failed to load images', error);
     }
 
+    // Add logo top right
     if (logoBase64) {
       doc.addImage(logoBase64, 'JPEG', 150, 10, 40, 20);
     }
@@ -58,14 +64,22 @@ const PaymentModal = ({ onClose }) => {
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
 
-    doc.text(`Dear ${name},`, 20, 50);
+    doc.text('Dear ', 20, 50);
+    doc.setFont('helvetica', 'bold');
+    doc.text(name, 30, 50);
+
+    doc.setFont('helvetica', 'normal');
     doc.text(
       `You have successfully registered as a Competitor in the category of "${category}".`,
       20,
       60
     );
-    doc.text(`Your registration number is: ${refId}`, 20, 70);
 
+    doc.text('Your registration number is: ', 20, 70);
+    doc.setFont('helvetica', 'bold');
+    doc.text(refId, 70, 70);
+
+    doc.setFont('helvetica', 'normal');
     doc.text('Competition Details:', 20, 85);
 
     doc.setFont('helvetica', 'bold');
@@ -83,7 +97,6 @@ const PaymentModal = ({ onClose }) => {
     doc.setFont('helvetica', 'normal');
     doc.text('10,000 RWF', 60, 115);
 
-    doc.setFont('helvetica', 'normal');
     doc.text(
       'Thank you for joining the T-Roger family. We look forward to your performance!',
       20,
@@ -93,9 +106,17 @@ const PaymentModal = ({ onClose }) => {
 
     doc.setFont('helvetica', 'bold');
     doc.text('Signed by:', 20, 160);
-    doc.text('IRADUKUNDA Thierry Roger', 20, 170);
+
+    // Add signature image slightly smaller and positioned nicely
+    if (signatureBase64) {
+      doc.addImage(signatureBase64, 'PNG', 20, 165, 50, 20); // width=50mm, height=20mm
+      doc.text('IRADUKUNDA Thierry Roger', 20, 190);
+    } else {
+      doc.text('IRADUKUNDA Thierry Roger', 20, 170);
+    }
+
     doc.setFont('helvetica', 'normal');
-    doc.text('CEO, T-Roger Talent Family', 20, 180);
+    doc.text('CEO, T-Roger Talent Family', 20, 200);
 
     return doc;
   };
