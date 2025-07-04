@@ -61,7 +61,14 @@ const RegisterForm = () => {
         alert('Registration saved, but email sending failed.');
       }
 
-      // Success: reset and redirect
+      // ✅ Store user info in localStorage for PDF generation later
+      localStorage.setItem('munaUser', JSON.stringify({
+        name: formData.name,
+        category: formData.category,
+        refId,
+      }));
+
+      // Show success and redirect
       setTimeout(() => {
         setIsSubmitting(false);
         setIsSuccess(true);
@@ -156,7 +163,7 @@ const RegisterForm = () => {
           <input
             type="text"
             name="category"
-            placeholder="e.g. Singer, Dancer, DJ, Acter, Poet, Journalist"
+            placeholder="e.g. Singer, Dancer, DJ, Actor, Poet, Journalist"
             value={formData.category}
             onChange={handleChange}
             required

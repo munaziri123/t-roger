@@ -182,18 +182,3 @@ h3 {
 .pay-now:disabled:hover {
   background-color: #ccc;
 }
-.user-summary-box {
-  background-color: #f8f8f8;
-  padding: 12px 15px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  line-height: 1.5;
-}
-.user-summary-box p {
-  margin: 4px 0;
-}
-
-.user-summary-box strong {
-  font-weight: bold;
-}
