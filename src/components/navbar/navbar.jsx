@@ -173,8 +173,7 @@ const Navbar = () => {
             <li><Link to="/" onClick={closeModal}>Home</Link></li>
             <li><Link to="/movies" onClick={closeModal}>Events</Link></li>
             <li><Link to="/tv" onClick={closeModal}>TV Shows</Link></li>
-            <li><Link to="/events" onClick={closeModal}>About us</Link></li>
-            <li>
+              <li>
              {isAdminLoggedIn ? (
   <button
   onClick={handleLogout}
@@ -203,6 +202,7 @@ const Navbar = () => {
 )}
 
             </li>
+            <li><Link to="/events" onClick={closeModal}>About us</Link></li>
           </ul>
         </div>
       )}
