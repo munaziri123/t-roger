@@ -18,6 +18,13 @@
   color: #333;
 }
 
+/* Add wrapper for horizontal scroll on small screens */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto; /* horizontal scroll on small screens */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+}
+
 .competitors-table {
   width: 100%;
   border-collapse: collapse;
@@ -37,6 +44,14 @@
   border-top: 1px solid #007BFF;
 }
 
+/* Rounded corners for thead */
+.competitors-table thead th:first-child {
+  border-top-left-radius: 8px;
+}
+.competitors-table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
 .competitors-table tbody tr {
   background-color: #f9f9f9;
   transition: background 0.2s ease;
@@ -51,18 +66,11 @@
   font-size: 0.95rem;
   border-bottom: 1px solid #e0e0e0;
   color: #333;
+  white-space: nowrap; /* prevent wrapping */
 }
 
 .competitors-table tbody td:first-child {
   font-weight: 600;
-}
-
-/* Rounded table corners */
-.competitors-table thead th:first-child {
-  border-top-left-radius: 8px;
-}
-.competitors-table thead th:last-child {
-  border-top-right-radius: 8px;
 }
 
 /* Status Badge */
@@ -102,15 +110,14 @@
   background-color: #adb5bd;
 }
 
-/* Scroll on mobile */
+/* Responsive scroll wrapper for small screens */
 @media (max-width: 767px) {
   .competitors-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+    min-width: 100%; /* let table fill container */
   }
 }
 
+/* Loading styles */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -132,20 +139,21 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
   font-weight: bold;
 }
 
-/* New styles for Back to Dashboard button container */
+/* Back to Dashboard Button */
 .back-to-dashboard-container {
   text-align: center;
   margin-top: 24px;
 }
 
-/* Style the Back to Dashboard button */
 .back-to-dashboard-button {
   background-color: #007BFF;
   color: white;

@@ -64,46 +64,38 @@ const Competitors = () => {
   return (
     <div className="competitors-container">
       <h2>Competitors</h2>
-      <table className="competitors-table">
-        <thead>
-          <tr>
-            <th>Competitor</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {competitors.length === 0 ? (
-            <tr><td colSpan="2">No competitors found.</td></tr>
-          ) : (
-            competitors.map(({ $id, name, status }) => (
-              <tr key={$id}>
-                <td>{name}</td>
-                <td className={`status ${status ? status.toLowerCase() : 'Pending'}`}>
-                  {status || 'Pending'}
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+
+      {/* Responsive wrapper for the table */}
+      <div className="table-responsive">
+        <table className="competitors-table">
+          <thead>
+            <tr>
+              <th>Competitor</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {competitors.length === 0 ? (
+              <tr><td colSpan="2">No competitors found.</td></tr>
+            ) : (
+              competitors.map(({ $id, name, status }) => (
+                <tr key={$id}>
+                  <td>{name}</td>
+                  <td className={`status ${status ? status.toLowerCase() : 'pending'}`}>
+                    {status || 'Pending'}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Centered Back to Dashboard button */}
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+      <div className="back-to-dashboard-container">
         <button
+          className="back-to-dashboard-button"
           onClick={() => navigate('/dashboard')}
-          style={{
-            padding: '10px 20px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            borderRadius: '5px',
-            border: 'none',
-            backgroundColor: '#007bff',
-            color: 'white',
-            boxShadow: '0 3px 8px rgba(0, 123, 255, 0.4)',
-            transition: 'background-color 0.3s ease',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#0056b3')}
-          onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#007bff')}
         >
           Back to Dashboard
         </button>
