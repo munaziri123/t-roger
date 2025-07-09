@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Client, Databases } from 'appwrite';
 import { useNavigate } from 'react-router-dom';
-import './Competitors.css';
+import './competitors.css';
 
 const client = new Client()
   .setEndpoint('https://cloud.appwrite.io/v1')  
