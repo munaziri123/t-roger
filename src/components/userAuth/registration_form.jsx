@@ -110,7 +110,7 @@ const refId = `TRF${randomNumber}${namePrefix}`;
   if (isSuccess) {
     return (
       <div className="register-success-container">
-        <h2>🎉 Congratulations! Registration Successful 🎉</h2>
+        <h2>🎉 Congratulations! Registration to T-Roger Family talent competition has done successfuly 🎉</h2>
         <p>Redirecting to payment page...</p>
       </div>
     );

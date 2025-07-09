@@ -26,6 +26,7 @@ const IntroductionSection = () => {
   const nextSlide = () => {
     setCurrent((current + 1) % images.length);
   };
+
   const navigate = useNavigate();
 
   return (
@@ -35,61 +36,52 @@ const IntroductionSection = () => {
         <div className="intro-text">
           <h2>Welcome to T-Roger Family</h2>
           <p>
-            Where Talent Meets Opportunity and Dreams Take the Stage. At T-Roger 
-            Family,
+            Where Talent Meets Opportunity and Dreams Take the Stage. At T-Roger Family,
             we live and breathe talent., undiscovered potential to polished champions,
             our mission is to find the stars of tomorrow and help them shine today. Whether it’s
             music, sports, dance, art, or beyond—we scout, nurture, and elevate individuals with
             passion and purpose. We also create unforgettable experiences through professionally
             planned events that give talent the spotlight they deserve.
-            
-       {/* Fire Button */}
-      <div className="fire-button-wrapper">
-        <button
-          className="fire-button"
-          onClick={() => navigate('/perform ')}
-        >
-          🔥 Click to Open Upcoming Events
-        </button>
-      </div>
           </p>
+          {/* Fire Button */}
+          <div className="fire-button-wrapper">
+            <button
+              className="fire-button"
+              onClick={() => navigate('/perform')}
+            >
+              🔥 Click to Open Upcoming Events
+            </button>
+          </div>
         </div>
-        
       </div>
-      
 
       {/* Carousel */}
-      
       <div className="carousel">
         <div>
-        {images.map((img, index) => (
-          <div
-            key={index}
-            className={`slide ${index === current ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${img})` }}
-          >
-            {index === current && (
-              <div className="slide-caption">
-                <h3>Event {index + 1}</h3>
-                <p>Stay tuned for more!</p>
-              </div>
-            )}
-          </div>
-        ))}
-        <button className="nav left" onClick={prevSlide}>
-          <FiArrowLeft />
-        </button>
-        <button className="nav right" onClick={nextSlide}>
-          <FiArrowRight />
-        </button>
-      </div>
-      </div>
-      <div>
-        
+          {images.map((img, index) => (
+            <div
+              key={index}
+              className={`slide ${index === current ? 'active' : ''}`}
+              style={{ backgroundImage: `url(${img})` }}
+            >
+              {index === current && (
+                <div className="slide-caption">
+                  <h3>Event {index + 1}</h3>
+                  <p>Stay tuned for more!</p>
+                </div>
+              )}
+            </div>
+          ))}
+          <button className="nav left" onClick={prevSlide}>
+            <FiArrowLeft />
+          </button>
+          <button className="nav right" onClick={nextSlide}>
+            <FiArrowRight />
+          </button>
+        </div>
       </div>
     </section>
   );
 };
-
 
 export default IntroductionSection;

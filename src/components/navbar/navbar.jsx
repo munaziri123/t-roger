@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './navbar.css';
 import { FaSearch, FaUserCircle, FaBell, FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../../assets/react.jpg';
@@ -8,14 +9,36 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+ useEffect(() => {
+  const adminStatus = localStorage.getItem('isAdmin') === 'true';
+  setIsAdminLoggedIn(adminStatus);
+
+  const handleScroll = () => {
+    setScrolled(window.scrollY > 10);
+  };
+  window.addEventListener('scroll', handleScroll);
+
+  const handleStorageChange = () => {
+    setIsAdminLoggedIn(localStorage.getItem('isAdmin') === 'true');
+  };
+
+  const handleAdminLogin = () => {
+    setIsAdminLoggedIn(true);
+  };
+
+  window.addEventListener('storage', handleStorageChange);
+  window.addEventListener('admin-login', handleAdminLogin);
+
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('storage', handleStorageChange);
+    window.removeEventListener('admin-login', handleAdminLogin);
+  };
+}, []);
+
 
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
@@ -29,18 +52,23 @@ const Navbar = () => {
     setShowMobileSearch(prev => !prev);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin');
+    setIsAdminLoggedIn(false);
+    navigate('/admin-login');
+    closeModal();
+  };
+
   return (
     <>
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="navbar-container">
-          {/* Logo */}
           <div className="navbar-brand">
-            <a href="/">
+            <Link to="/">
               <img src={logo} alt="ENTFlix Logo" className="logo-image" width="140" height="80" />
-            </a>
+            </Link>
           </div>
 
-          {/* Desktop Search */}
           <div className="navbar-search">
             <input
               type="text"
@@ -51,17 +79,48 @@ const Navbar = () => {
             <FaSearch className="search-icon" />
           </div>
 
-          {/* Desktop Links */}
           <div className="navbar-links">
             <ul>
-              <li><a href="/" className="nav-link active">Home</a></li>
-              <li><a href="/categories" className="nav-link">Events</a></li>
-              <li><a href="/" className="nav-link">TV Shows</a></li>
-              <li><a href="/" className="nav-link">About us</a></li>
+              <li><Link to="/" className="nav-link active">Home</Link></li>
+              <li><Link to="/categories" className="nav-link">Events</Link></li>
+              <li><Link to="/" className="nav-link">TV Shows</Link></li>
+              <li><Link to="/" className="nav-link">About us</Link></li>
+              <li>
+               {isAdminLoggedIn ? (
+  <button
+  onClick={handleLogout}
+  style={{
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: 'var(--color-text-muted)',   // same as nav links normal color
+    fontSize: '1rem',
+    fontWeight: 500,
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    fontFamily: "'Bebas Neue', sans-serif",
+    padding: '0.5rem 0',
+    textDecoration: 'none',
+    position: 'relative',
+    transition: 'color 0.3s ease',
+    display: 'inline',
+  }}
+  onMouseEnter={e => e.currentTarget.style.color = 'var(--color-text-light)'}
+  onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text-muted)'}
+>
+  Logout
+</button>
+
+) : (
+  <Link to="/admin-login" className="nav-link">
+    Login as admin
+  </Link>
+)}
+
+              </li>
             </ul>
           </div>
 
-          {/* Desktop User Actions */}
           <div className="navbar-actions">
             <button className="notification-btn">
               <FaBell />
@@ -72,7 +131,6 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile Actions */}
           <div className="navbar-mobile-actions">
             <button className="mobile-search-btn" onClick={toggleMobileSearch} aria-label="Search">
               <FaSearch size={18} />
@@ -91,7 +149,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Search Overlay */}
       {showMobileSearch && (
         <div className="mobile-search-overlay">
           <input
@@ -107,22 +164,49 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Mobile Navigation Modal */}
       {isModalOpen && (
         <div className="mobile-nav-overlay">
           <button className="close-button" onClick={closeModal}>
             <FaTimes size={24} />
           </button>
           <ul className="mobile-nav-links">
-            <li><a href="/" onClick={closeModal}>Home</a></li>
-            <li><a href="/movies" onClick={closeModal}>Events</a></li>
-            <li><a href="/tv" onClick={closeModal}>TV Shows</a></li>
-            <li><a href="/events" onClick={closeModal}>About us</a></li>
+            <li><Link to="/" onClick={closeModal}>Home</Link></li>
+            <li><Link to="/movies" onClick={closeModal}>Events</Link></li>
+            <li><Link to="/tv" onClick={closeModal}>TV Shows</Link></li>
+            <li><Link to="/events" onClick={closeModal}>About us</Link></li>
+            <li>
+             {isAdminLoggedIn ? (
+  <button
+  onClick={handleLogout}
+  style={{
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: '#000',
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    textDecoration: 'none',
+    transition: 'color 0.3s ease',
+    padding: 0,
+    fontFamily: 'inherit',
+  }}
+  onMouseEnter={e => e.currentTarget.style.color = 'var(--color-secondary)'}
+  onMouseLeave={e => e.currentTarget.style.color = '#000'}
+>
+  Logout
+</button>
+
+) : (
+  <Link to="/admin-login" className="nav-link">
+    Login as admin
+  </Link>
+)}
+
+            </li>
           </ul>
         </div>
       )}
 
-      {/* Prevent overlap */}
       <div style={{ marginTop: '80px' }} />
     </>
   );

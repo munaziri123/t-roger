@@ -5,6 +5,8 @@
   overflow-x: hidden;
   margin-top: 100px;
   padding-top: 1rem;
+  background-color: #121212; /* dark background to avoid white */
+  color: #eee; /* light text color */
 }
 
 /* Carousel */
@@ -71,6 +73,8 @@
   flex-direction: column;
   align-items: center;
   padding: 1rem;
+  background-color: transparent; /* make sure no white bg here */
+  color: #eee; /* text color for contrast */
 }
 
 .intro-img {
@@ -84,14 +88,10 @@
 
 .intro-text {
   max-width: 600px;
-  text-align: center;
-  text-transform: none;
+  text-align: left; /* left aligned text */
   font-family: Arial, Helvetica, sans-serif;
   text-overflow: clip;
-  color: white;
-}
-.intro-text, h2{
-  text-align: left;
+  color: #eee;
 }
 
 .intro-text h2 {
@@ -116,7 +116,8 @@
     margin-top: 130px;
   }
 
-  .carousel, .intro-section {
+  .carousel,
+  .intro-section {
     flex: 1;
     margin-top: 50px;
   }
@@ -131,6 +132,7 @@
     margin-bottom: 1rem;
   }
 }
+
 .fire-button-wrapper {
   display: flex;
   justify-content: center;
@@ -168,8 +170,13 @@
 
 /* Color Shift Gradient */
 @keyframes color-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
-
