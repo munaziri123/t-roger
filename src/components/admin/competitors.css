@@ -1,13 +1,13 @@
 .competitors-container {
   padding: 20px;
-  max-width: 1000px;
+  max-width: 100%;
   margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
-  overflow-x: auto;
-  position: relative; /* Added to help positioning if needed */
+  overflow-x: hidden; /* prevent horizontal scroll */
+  position: relative; /* keep if needed */
 }
 
 .competitors-container h2 {
@@ -18,17 +18,13 @@
   color: #333;
 }
 
-/* Add wrapper for horizontal scroll on small screens */
-.table-responsive {
-  width: 100%;
-  overflow-x: auto; /* horizontal scroll on small screens */
-  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
-}
-
 .competitors-table {
-  width: 100%;
+  width: 100%; /* full container width */
   border-collapse: collapse;
-  min-width: 600px;
+  table-layout: fixed; /* force fixed layout */
+  word-wrap: break-word; /* wrap content */
+  font-size: 0.95rem;
+  min-width: 0; /* remove any min-width */
 }
 
 .competitors-table thead {
@@ -42,12 +38,13 @@
   font-weight: 600;
   font-size: 1rem;
   border-top: 1px solid #007BFF;
+  white-space: normal; /* allow wrapping */
 }
 
-/* Rounded corners for thead */
 .competitors-table thead th:first-child {
   border-top-left-radius: 8px;
 }
+
 .competitors-table thead th:last-child {
   border-top-right-radius: 8px;
 }
@@ -66,7 +63,8 @@
   font-size: 0.95rem;
   border-bottom: 1px solid #e0e0e0;
   color: #333;
-  white-space: nowrap; /* prevent wrapping */
+  white-space: normal; /* allow wrapping */
+  overflow-wrap: break-word; /* break long words */
 }
 
 .competitors-table tbody td:first-child {
@@ -110,14 +108,13 @@
   background-color: #adb5bd;
 }
 
-/* Responsive scroll wrapper for small screens */
+/* Responsive adjustments */
 @media (max-width: 767px) {
   .competitors-table {
-    min-width: 100%; /* let table fill container */
+    min-width: 0; /* no forced min-width */
   }
 }
 
-/* Loading styles */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -139,21 +136,20 @@
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .loading-text {
   font-weight: bold;
 }
 
-/* Back to Dashboard Button */
+/* Back to Dashboard button container */
 .back-to-dashboard-container {
   text-align: center;
   margin-top: 24px;
 }
 
+/* Back to Dashboard button */
 .back-to-dashboard-button {
   background-color: #007BFF;
   color: white;
