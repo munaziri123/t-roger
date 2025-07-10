@@ -117,7 +117,9 @@ const Ticketing = () => {
       } else {
         // Unregistered user creates ticket directly
         const randomNumber = Math.floor(100000 + Math.random() * 900000);
-      const Id = `TRF${randomNumber}${namePrefix}VISITOR`;
+        const namePrefix = name.trim().substring(0, 4).toUpperCase();  // <== FIX: define namePrefix here
+        const Id = `TRF${randomNumber}${namePrefix}VISITOR`;
+
         ticketInfo = {
           name,
           refId: Id,
