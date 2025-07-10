@@ -15,6 +15,7 @@ const collectionId = '6864c74c000479f76901';
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [competitorCount, setCompetitorCount] = useState(0);
+  const [confirmedCount, setConfirmedCount] = useState(0);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
@@ -24,6 +25,8 @@ const Dashboard = () => {
     try {
       const res = await databases.listDocuments(databaseId, collectionId);
       setCompetitorCount(res.total ?? res.documents.length);
+      const confirmedDocs = res.documents.filter(doc => doc.status === 'confirmed');
+      setConfirmedCount(confirmedDocs.length);
     } catch (err) {
       console.error("Error fetching competitors:", err);
     }
@@ -44,7 +47,7 @@ const Dashboard = () => {
     );
 
     return () => {
-      unsubscribe(); // ✅ Clean up real-time listener
+      unsubscribe(); 
     };
   }, []);
 
@@ -57,7 +60,7 @@ const Dashboard = () => {
     },
     {
       title: "Total Number of confirmed competitors",
-      value: 0, // You can make this dynamic later
+      value: confirmedDocs,
       className: "card blue",
       link: "/confirmed-competitors"
     },

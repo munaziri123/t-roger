@@ -96,7 +96,8 @@
 }
 
 .status.confirmed {
-  background-color: #17a2b8;
+  color: green;
+  font-weight: bold;
 }
 
 .status.cancelled {

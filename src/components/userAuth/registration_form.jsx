@@ -35,64 +35,58 @@ const refId = `TRF${randomNumber}${namePrefix}`;
     const userData = { ...formData, refId };
 
     try {
-      // Save to Appwrite
-      await databases.createDocument(
-        '6864c596000a79f621ee',
-        '6864c74c000479f76901',
-        ID.unique(),
-        userData
-      );
+  const response = await databases.createDocument(
+    '6864c596000a79f621ee',
+    '6864c74c000479f76901',
+    ID.unique(),
+    userData
+  );
 
-      // Send confirmation email
-      const emailRes = await fetch(
-        'https://t-roger-git-main-munaziri-josues-projects.vercel.app/api/send_confirmation',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            category: formData.category,
-            refId,
-          }),
-        }
-      );
+  // ✅ Save Appwrite document ID
+  localStorage.setItem('documentId', response.$id);
 
-      if (!emailRes.ok) {
-        const errData = await emailRes.json().catch(() => ({}));
-        console.warn('⚠️ Email sending failed:', errData?.message || emailRes.statusText);
-        alert('Registration saved, but email sending failed.');
-      }
+  // ✅ Save for PDF use
+  localStorage.setItem('munaUser', JSON.stringify({
+    name: formData.name,
+    category: formData.category,
+    refId,
+  }));
 
-      // ✅ Store user info in localStorage for PDF generation later
-      localStorage.setItem('munaUser', JSON.stringify({
-        name: formData.name,
-        category: formData.category,
-        refId,
-      }));
+  // Send confirmation email
+  await fetch('https://t-roger-git-main-munaziri-josues-projects.vercel.app/api/send_confirmation', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: formData.name,
+      email: formData.email,
+      category: formData.category,
+      refId,
+    }),
+  });
 
-      // Show success and redirect
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setIsSuccess(true);
-        setFormData({
-          name: '',
-          phone: '',
-          email: '',
-          category: '',
-          district: '',
-          sector: '',
-        });
+  // Redirect after delay
+  setTimeout(() => {
+    setIsSubmitting(false);
+    setIsSuccess(true);
+    setFormData({
+      name: '',
+      phone: '',
+      email: '',
+      category: '',
+      district: '',
+      sector: '',
+    });
 
-        setTimeout(() => {
-          window.location.href = '/payment';
-        }, 3000);
-      }, 3000);
-    } catch (err) {
-      console.error('Registration error:', err);
-      alert('Something went wrong. Please try again.');
-      setIsSubmitting(false);
-    }
+    setTimeout(() => {
+      window.location.href = '/payment';
+    }, 3000);
+  }, 3000);
+} catch (err) {
+  console.error('Registration error:', err);
+  alert('Something went wrong. Please try again.');
+  setIsSubmitting(false);
+}
+
   };
 
   if (isSubmitting) {

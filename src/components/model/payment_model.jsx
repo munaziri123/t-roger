@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { databases } from 'appwrite';
 import { AlertTriangle } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import jsPDF from 'jspdf';
@@ -104,22 +105,39 @@ const PaymentModal = ({ onClose }) => {
     return doc;
   };
 
-  const handlePayment = async () => {
-    setProcessing(true);
+const handlePayment = async () => {
+  setProcessing(true);
 
-    setTimeout(async () => {
-      const doc = await generatePdf();
+  setTimeout(async () => {
+    const doc = await generatePdf();
 
-      if (!doc) {
-        setProcessing(false);
-        return;
-      }
-
-      setPdfData(doc);
+    if (!doc) {
       setProcessing(false);
-      setShowCongrats(true);
-    }, 3000);
-  };
+      return;
+    }
+
+    try {
+      const documentId = localStorage.getItem('documentId');
+      const databaseId = '6864c596000a79f621ee';
+      const collectionId = '6864c74c000479f76901';
+
+      if (documentId) {
+        await databases.updateDocument(databaseId, collectionId, documentId, {
+          status: 'confirmed',
+        });
+
+        // ✅ Clean up after update
+        localStorage.removeItem('documentId');
+      }
+    } catch (error) {
+      console.error('❌ Failed to update payment status:', error);
+    }
+
+    setPdfData(doc);
+    setProcessing(false);
+    setShowCongrats(true);
+  }, 3000);
+};
 
   const handleDownload = () => {
     if (pdfData) {
