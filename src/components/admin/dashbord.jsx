@@ -1,62 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Routes, Route, Outlet } from 'react-router-dom';
 import { Query } from 'appwrite';
-import { Client, Databases } from 'appwrite'; // ✅ FIXED: Removed 'Realtime'
+import { Client, Databases } from 'appwrite';
+import Ticketing from './ticketing.jsx'; // Import Ticketing component
 import './dashbord.css';
 
-// ✅ Appwrite setup
+// Appwrite setup
 const client = new Client()
-  .setEndpoint('https://cloud.appwrite.io/v1') 
+  .setEndpoint('https://cloud.appwrite.io/v1')
   .setProject('6864c522003108b9b279');
 
 const databases = new Databases(client);
-const databaseId = '6864c596000a79f621ee'; 
-const collectionId = '6864c74c000479f76901'; 
+const databaseId = '6864c596000a79f621ee';
+const collectionId = '6864c74c000479f76901';
 
-const Dashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [competitorCount, setCompetitorCount] = useState(0);
-  const [confirmedCount, setConfirmedCount] = useState(0);
-
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const closeSidebar = () => setSidebarOpen(false);
-
-  // ✅ Fetch competitor count
-  const fetchCompetitorCount = async () => {
-  try {
-    // Fetch total
-    const res = await databases.listDocuments(databaseId, collectionId);
-    setCompetitorCount(res.total ?? res.documents.length);
-
-    // Fetch confirmed directly
-    const confirmedRes = await databases.listDocuments(databaseId, collectionId, [
-      Query.equal("status", ["confirmed"])
-    ]);
-    setConfirmedCount(confirmedRes.total ?? confirmedRes.documents.length);
-  } catch (err) {
-    console.error("Error fetching competitors:", err);
-  }
-};
-
-  useEffect(() => {
-    fetchCompetitorCount();
-
-    // ✅ Real-time subscription using the client
-    const unsubscribe = client.subscribe(
-      `databases.${databaseId}.collections.${collectionId}.documents`,
-      (event) => {
-        const shouldUpdate = event.events.some(e => 
-          e.includes("create") || e.includes("update") || e.includes("delete")
-        );
-        if (shouldUpdate) fetchCompetitorCount();
-      }
-    );
-
-    return () => {
-      unsubscribe(); 
-    };
-  }, []);
-
+const DashboardHome = ({ competitorCount, confirmedCount }) => {
   const cards = [
     {
       title: "Total Number of competitors",
@@ -97,21 +55,77 @@ const Dashboard = () => {
   ];
 
   return (
+    <div className="cards">
+      {cards.map((card, index) => (
+        <Link
+          key={index}
+          to={card.link}
+          className={card.className + " card-link"}
+          style={{ textDecoration: "none" }}
+        >
+          <div className="card-value">{card.value}</div>
+          <div className="card-title">{card.title}</div>
+        </Link>
+      ))}
+    </div>
+  );
+};
+
+const Dashboard = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [competitorCount, setCompetitorCount] = useState(0);
+  const [confirmedCount, setConfirmedCount] = useState(0);
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const closeSidebar = () => setSidebarOpen(false);
+
+  const fetchCompetitorCount = async () => {
+    try {
+      const res = await databases.listDocuments(databaseId, collectionId);
+      setCompetitorCount(res.total ?? res.documents.length);
+
+      const confirmedRes = await databases.listDocuments(databaseId, collectionId, [
+        Query.equal("status", ["confirmed"])
+      ]);
+      setConfirmedCount(confirmedRes.total ?? confirmedRes.documents.length);
+    } catch (err) {
+      console.error("Error fetching competitors:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCompetitorCount();
+
+    const unsubscribe = client.subscribe(
+      `databases.${databaseId}.collections.${collectionId}.documents`,
+      (event) => {
+        const shouldUpdate = event.events.some(e =>
+          e.includes("create") || e.includes("update") || e.includes("delete")
+        );
+        if (shouldUpdate) fetchCompetitorCount();
+      }
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  return (
     <div className="dashboard-container">
       {sidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
 
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <ul className="nav">
-          <li>Dashboard</li>
+          <li><Link to="/dashboard" onClick={closeSidebar}>Dashboard Home</Link></li>
           <li>Create Events</li>
-          <li>create a Competitions</li>
+          <li>Create a Competition</li>
           <li>Participants</li>
           <li>
-  <Link to="/ticketing" onClick={closeSidebar}>
-    Manage Tickets
-  </Link>
-</li>
-
+            <Link to="/dashboard/ticketing" onClick={closeSidebar}>
+              Manage Tickets
+            </Link>
+          </li>
           <li>Payments</li>
           <li>Statistics</li>
         </ul>
@@ -127,19 +141,16 @@ const Dashboard = () => {
           <div className="welcome">Welcome Back! 👋 T-Roger Admin Dashboard</div>
         </div>
 
-        <div className="cards">
-          {cards.map((card, index) => (
-            <Link
-              key={index}
-              to={card.link}
-              className={card.className + " card-link"}
-              style={{ textDecoration: "none" }}
-            >
-              <div className="card-value">{card.value}</div>
-              <div className="card-title">{card.title}</div>
-            </Link>
-          ))}
-        </div>
+        {/* Nested routes rendered here */}
+        <Routes>
+          <Route path="/" element={
+            <DashboardHome
+              competitorCount={competitorCount}
+              confirmedCount={confirmedCount}
+            />
+          } />
+          <Route path="ticketing" element={<Ticketing />} />
+        </Routes>
       </main>
     </div>
   );
