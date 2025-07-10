@@ -75,8 +75,6 @@ const Ticketing = () => {
 
     return doc;
   };
-const randomNumber = Math.floor(100000 + Math.random() * 900000);
-const Id = `TRF${randomNumber}${namePrefix}VISITOR`;
 
   const handleGenerateTicket = async () => {
     if (isRegistered) {
@@ -118,6 +116,8 @@ const Id = `TRF${randomNumber}${namePrefix}VISITOR`;
         };
       } else {
         // Unregistered user creates ticket directly
+        const randomNumber = Math.floor(100000 + Math.random() * 900000);
+      const Id = `TRF${randomNumber}${namePrefix}VISITOR`;
         ticketInfo = {
           name,
           refId: Id,
