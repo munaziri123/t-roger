@@ -99,6 +99,7 @@ button:disabled {
 
 .modal-content h3 {
   margin-bottom: 15px;
+  color: #000;
 }
 
 .modal-buttons {
