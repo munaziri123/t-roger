@@ -60,7 +60,7 @@ const Dashboard = () => {
     },
     {
       title: "Total Number of confirmed competitors",
-      value: confirmedDocs,
+      value: confirmedCount,
       className: "card blue",
       link: "/confirmed-competitors"
     },
