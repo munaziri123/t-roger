@@ -11,9 +11,6 @@ import AdminLogin from './components/admin/adminLogin.jsx';
 import Dashboard from './components/admin/dashbord.jsx';
 import Competitors from './components/admin/competitors.jsx';
 import ConfirmedCompetitors from './components/admin/confirmed_competitors.jsx';
-import Ticketing from './components/admin/ticketing.jsx';
-
-// ProtectedRoute component to restrict access
 const ProtectedRoute = ({ children }) => {
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
@@ -36,23 +33,16 @@ function App() {
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/admin-login" element={<AdminLogin />} />
 
-        {/* Protect Dashboard and Competitors routes */}
+        {/* Protect Dashboard and nested routes like /dashboard/ticketing */}
         <Route
-          path="/dashboard"
+          path="/dashboard/*"
           element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/ticketing"
-          element={
-            <ProtectedRoute>
-              <Ticketing />
-            </ProtectedRoute>
-          }
-        />
+
         <Route
           path="/confirmed-competitors"
           element={
