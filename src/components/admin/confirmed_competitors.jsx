@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Client, Databases } from 'appwrite';
+import { Client, Databases, Query } from 'appwrite';
 import { useNavigate } from 'react-router-dom';
 import './competitors.css';
 
+// ✅ Appwrite configuration
 const client = new Client()
   .setEndpoint('https://cloud.appwrite.io/v1')
   .setProject('6864c522003108b9b279');
@@ -18,14 +19,18 @@ const Competitors = () => {
   const navigate = useNavigate();
 
   const fetchConfirmedCompetitors = async () => {
+    setLoading(true);
     try {
-      const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
-      const confirmed = response.documents.filter(doc =>
-        doc.status?.toLowerCase() === 'confirmed'
+      const response = await databases.listDocuments(
+        DATABASE_ID,
+        COLLECTION_ID,
+        [Query.equal('status', 'confirmed')]
       );
-      setConfirmedCompetitors(confirmed);
+
+      console.log('✅ Confirmed competitors:', response.documents);
+      setConfirmedCompetitors(response.documents);
     } catch (error) {
-      console.error('Error fetching confirmed competitors:', error);
+      console.error('❌ Error fetching confirmed competitors:', error);
     } finally {
       setLoading(false);
     }
@@ -36,24 +41,26 @@ const Competitors = () => {
 
     const unsubscribe = client.subscribe(
       [`databases.${DATABASE_ID}.collections.${COLLECTION_ID}.documents`],
-      (response) => {
-        const updatedDoc = response.payload;
+      (event) => {
+        const updatedDoc = event.payload;
         const isConfirmed = updatedDoc.status?.toLowerCase() === 'confirmed';
 
         setConfirmedCompetitors((prev) => {
-          const exists = prev.find(doc => doc.$id === updatedDoc.$id);
+          const exists = prev.find((doc) => doc.$id === updatedDoc.$id);
 
           if (isConfirmed) {
             if (exists) {
-              // Update existing
-              return prev.map(doc => (doc.$id === updatedDoc.$id ? updatedDoc : doc));
+              // Update the existing document
+              return prev.map((doc) =>
+                doc.$id === updatedDoc.$id ? updatedDoc : doc
+              );
             } else {
-              // Add new
+              // Add new confirmed document
               return [...prev, updatedDoc];
             }
           } else {
             // Remove if no longer confirmed
-            return prev.filter(doc => doc.$id !== updatedDoc.$id);
+            return prev.filter((doc) => doc.$id !== updatedDoc.$id);
           }
         });
       }
@@ -85,12 +92,14 @@ const Competitors = () => {
           </thead>
           <tbody>
             {confirmedCompetitors.length === 0 ? (
-              <tr><td colSpan="2">No confirmed competitors found.</td></tr>
+              <tr>
+                <td colSpan="2">No confirmed competitors found.</td>
+              </tr>
             ) : (
               confirmedCompetitors.map(({ $id, name, status }) => (
                 <tr key={$id}>
-                  <td>{name}</td>
-                  <td className={`status ${status.toLowerCase()}`}>{status}</td>
+                  <td>{name || 'Unnamed'}</td>
+                  <td className={`status ${status?.toLowerCase()}`}>{status}</td>
                 </tr>
               ))
             )}
