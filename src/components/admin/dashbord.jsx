@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Query } from 'appwrite';
 import { Client, Databases } from 'appwrite'; // ✅ FIXED: Removed 'Realtime'
 import './dashbord.css';
 
@@ -22,15 +23,20 @@ const Dashboard = () => {
 
   // ✅ Fetch competitor count
   const fetchCompetitorCount = async () => {
-    try {
-      const res = await databases.listDocuments(databaseId, collectionId);
-      setCompetitorCount(res.total ?? res.documents.length);
-      const confirmedDocs = res.documents.filter(doc => doc.status === 'confirmed');
-      setConfirmedCount(confirmedDocs.length);
-    } catch (err) {
-      console.error("Error fetching competitors:", err);
-    }
-  };
+  try {
+    // Fetch total
+    const res = await databases.listDocuments(databaseId, collectionId);
+    setCompetitorCount(res.total ?? res.documents.length);
+
+    // Fetch confirmed directly
+    const confirmedRes = await databases.listDocuments(databaseId, collectionId, [
+      Query.equal("status", ["confirmed"])
+    ]);
+    setConfirmedCount(confirmedRes.total ?? confirmedRes.documents.length);
+  } catch (err) {
+    console.error("Error fetching competitors:", err);
+  }
+};
 
   useEffect(() => {
     fetchCompetitorCount();
