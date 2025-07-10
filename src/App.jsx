@@ -11,6 +11,7 @@ import AdminLogin from './components/admin/adminLogin.jsx';
 import Dashboard from './components/admin/dashbord.jsx';
 import Competitors from './components/admin/competitors.jsx';
 import ConfirmedCompetitors from './components/admin/confirmed_competitors.jsx';
+import Ticketing from './components/admin/ticketing.jsx';
 
 // ProtectedRoute component to restrict access
 const ProtectedRoute = ({ children }) => {
@@ -41,6 +42,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ticketing"
+          element={
+            <ProtectedRoute>
+              <Ticketing />
             </ProtectedRoute>
           }
         />

@@ -106,7 +106,7 @@ const Dashboard = () => {
           <li>Create Events</li>
           <li>create a Competitions</li>
           <li>Participants</li>
-          <li>Manage Tickets</li>
+          <li><link to="/ticketing">Manage Tickets</link></li>
           <li>Payments</li>
           <li>Statistics</li>
         </ul>
