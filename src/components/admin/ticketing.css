@@ -64,7 +64,99 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Responsive layout */
+/* ========================== */
+/* Modal Styling Below        */
+/* ========================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  color: #222;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h3 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  margin: 8px 0;
+  color: #333;
+}
+
+.modal-content small {
+  display: block;
+  margin-top: 12px;
+  color: #777;
+}
+
+.modal-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.modal-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.modal-buttons button:last-child {
+  background-color: #dc3545;
+}
+
+.modal-buttons button:last-child:hover {
+  background-color: #c82333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive */
 @media (max-width: 600px) {
   .ticketing-container {
     padding: 24px;
@@ -74,46 +166,8 @@ button:disabled {
   .ticketing-container h2 {
     font-size: 1.5rem;
   }
-}
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
 
-.modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-}
-
-.modal-content h3 p {
-  margin-bottom: 15px;
-  color: #000;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.modal-buttons button {
-  padding: 10px 15px;
-  cursor: pointer;
-}
-
-.modal-buttons button:hover {
-  background-color: #007BFF;
-  color: white;
+  .modal-content {
+    padding: 20px;
+  }
 }
