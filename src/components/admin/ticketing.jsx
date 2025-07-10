@@ -146,7 +146,13 @@ const Ticketing = () => {
       {modalOpen && ticketData && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3>T-Roger Event Ticket</h3>
+            <img
+  src="https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg"
+  alt="T-Roger Logo"
+  className="ticket-logo"
+/>
+<h3>T-Roger Event Ticket</h3>
+
             <p><strong>Name:</strong> {ticketData.name}</p>
             <p><strong>Registration Number:</strong> {ticketData.refId}</p>
             <p><strong>Fee:</strong> {fee} RWF</p>
