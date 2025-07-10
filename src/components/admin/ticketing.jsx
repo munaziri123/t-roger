@@ -75,6 +75,9 @@ const Ticketing = () => {
 
     return doc;
   };
+const randomNumber = Math.floor(100000 + Math.random() * 900000);
+const namePrefix = formData.name.trim().substring(0, 4).toUpperCase();
+const Id = `TRF${randomNumber}${namePrefix}VISITOR`;
 
   const handleGenerateTicket = async () => {
     if (isRegistered) {
@@ -118,7 +121,7 @@ const Ticketing = () => {
         // Unregistered user creates ticket directly
         ticketInfo = {
           name,
-          refId: null,
+          refId: Id,
           email,
           fee,
           paidAt: new Date().toISOString(),
