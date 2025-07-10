@@ -15,10 +15,10 @@ const Ticketing = () => {
   const [refId, setRefId] = useState('');
   const [fee, setFee] = useState('');
   const [loading, setLoading] = useState(false);
-  const [ticketData, setTicketData] = useState(null);  // Store ticket info for preview
-  const [pdfDoc, setPdfDoc] = useState(null);          // Store jsPDF instance for print/download
+  const [ticketData, setTicketData] = useState(null);
+  const [pdfDoc, setPdfDoc] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  // Convert image URL to base64
   const getBase64FromUrl = async (url) => {
     const response = await fetch(url);
     const blob = await response.blob();
@@ -30,7 +30,6 @@ const Ticketing = () => {
     });
   };
 
-  // Generate jsPDF object (but don't save/download yet)
   const generatePdfDoc = async (userData) => {
     const doc = new jsPDF({
       orientation: 'landscape',
@@ -71,7 +70,6 @@ const Ticketing = () => {
     return doc;
   };
 
-  // Handle generating the ticket and preview
   const handleGenerateTicket = async () => {
     if (!refId || !fee) {
       alert('Please enter both registration number and fee.');
@@ -96,6 +94,7 @@ const Ticketing = () => {
 
       setTicketData(user);
       setPdfDoc(doc);
+      setModalOpen(true);
     } catch (err) {
       console.error('Error generating ticket:', err);
       alert('Something went wrong.');
@@ -104,13 +103,11 @@ const Ticketing = () => {
     }
   };
 
-  // Download the PDF
   const handleDownload = () => {
     if (!pdfDoc) return;
     pdfDoc.save(`T-Roger_Ticket_${refId}.pdf`);
   };
 
-  // Print the PDF (opens the print dialog)
   const handlePrint = () => {
     if (!pdfDoc) return;
     pdfDoc.autoPrint();
@@ -145,17 +142,23 @@ const Ticketing = () => {
         {loading ? 'Generating Ticket...' : '🎉 Welcome'}
       </button>
 
-      {/* Show ticket preview & print/download only if ticketData exists */}
-      {ticketData && (
-        <div className="ticket-preview">
-          <h3>Ticket Preview</h3>
-          <p><b>Name:</b> {ticketData.name}</p>
-          <p><b>Registration No:</b> {ticketData.refId}</p>
-          <p><b>Fee:</b> {fee} RWF</p>
-          {/* Add more details if needed */}
+      {/* Modal for ticket display */}
+      {modalOpen && ticketData && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>T-Roger Event Ticket</h3>
+            <p><strong>Name:</strong> {ticketData.name}</p>
+            <p><strong>Registration Number:</strong> {ticketData.refId}</p>
+            <p><strong>Fee:</strong> {fee} RWF</p>
+            <p><em>Welcome to the T-Roger party! 🎉</em></p>
+            <p><small>Valid Until: {(new Date(Date.now() + 24 * 60 * 60 * 1000)).toLocaleDateString()}</small></p>
 
-          <button onClick={handleDownload}>Download PDF</button>
-          <button onClick={handlePrint}>Print Ticket</button>
+            <div className="modal-buttons">
+              <button onClick={handlePrint}>Print Ticket</button>
+              <button onClick={handleDownload}>Download PDF</button>
+              <button onClick={() => setModalOpen(false)}>Close</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
