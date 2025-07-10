@@ -106,7 +106,12 @@ const Dashboard = () => {
           <li>Create Events</li>
           <li>create a Competitions</li>
           <li>Participants</li>
-          <li><link to="/ticketing">Manage Tickets</link></li>
+          <li>
+  <Link to="/ticketing" onClick={closeSidebar}>
+    Manage Tickets
+  </Link>
+</li>
+
           <li>Payments</li>
           <li>Statistics</li>
         </ul>
