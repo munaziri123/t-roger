@@ -2,15 +2,18 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #1e1e2f, #adc1e2);
   display: flex;
-  padding: 10px;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* Bank card */
 .revenue-full-card {
   width: 100%;
-  height: 60%;
+  height: 100%;
   max-width: 900px;
+  max-height: 600px;
   background: linear-gradient(135deg, #4f46e5, #3b82f6);
   border-radius: 20px;
   color: white;
@@ -20,7 +23,6 @@
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.3s ease;
-  margin-top: 10px;
 }
 
 .revenue-full-card:hover {
@@ -58,11 +60,36 @@
   margin: 0;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+/* 🔄 Responsive full card on small screens */
+@media (max-width: 768px) {
+  .revenue-full-bg {
+    padding: 0;
+  }
+
   .revenue-full-card {
-    height: 100%;
-    padding: 100%;
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    padding: 40px 25px;
+  }
+
+  .revenue-top h3 {
+    font-size: 20px;
+  }
+
+  .revenue-middle h1 {
+    font-size: 36px;
+  }
+
+  .revenue-chip {
+    width: 50px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .revenue-full-card {
+    padding: 30px 20px;
   }
 
   .revenue-top h3 {
@@ -70,11 +97,6 @@
   }
 
   .revenue-middle h1 {
-    font-size: 32px;
-  }
-
-  .revenue-chip {
-    width: 50px;
-    height: 30px;
+    font-size: 28px;
   }
 }
