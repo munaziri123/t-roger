@@ -3,6 +3,7 @@ import { Link, Routes, Route, Outlet } from 'react-router-dom';
 import { Query } from 'appwrite';
 import { Client, Databases } from 'appwrite';
 import Ticketing from './ticketing.jsx'; // Import Ticketing component
+import TicketsChecking from './scanner.jsx';
 import './dashbord.css';
 
 // Appwrite setup
@@ -123,9 +124,12 @@ const Dashboard = () => {
           <li>Participants</li>
           <li>
             <Link to="/dashboard/ticketing" onClick={closeSidebar}>
-              Manage Tickets
+              Create Tickets
             </Link>
           </li>
+          <li>
+            <Link to="/dashboard/tickets_checking" onClick={closeSidebar}>check tickets
+            </Link></li>
           <li>Payments</li>
           <li>Statistics</li>
         </ul>
@@ -150,6 +154,7 @@ const Dashboard = () => {
             />
           } />
           <Route path="ticketing" element={<Ticketing />} />
+          <Route path="tickets_checking" element={<TicketsChecking />} />
         </Routes>
       </main>
     </div>
