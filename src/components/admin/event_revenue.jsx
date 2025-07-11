@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Client, Databases, Query, Realtime } from 'appwrite';
 import CountUp from 'react-countup';
-import './TotalRevenue.css';
+import './event_revenue.css';
 
 // Appwrite setup
 const client = new Client()
