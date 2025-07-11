@@ -4,6 +4,7 @@ import { Html5QrcodeScanner } from 'html5-qrcode';
 import { Client, Databases, Query } from 'appwrite';
 import './scanner.css';
 
+// Appwrite config
 const client = new Client()
   .setEndpoint('https://cloud.appwrite.io/v1')
   .setProject('6864c522003108b9b279');
@@ -13,17 +14,11 @@ const DATABASE_ID = '6864c596000a79f621ee';
 const TICKET_COLLECTION_ID = '686fbd05002b5b00e16a';
 
 const Scanner = () => {
-  const [feedback, setFeedback] = useState(null); // success, error, used
-
-  const playSound = (type) => {
-    const audio = new Audio(type === 'success' ? '/success.mp3' : '/error.mp3');
-    audio.play();
-  };
+  const [feedback, setFeedback] = useState(null); // { type: 'success' | 'error', message: string }
 
   const showFeedback = (type, message) => {
     setFeedback({ type, message });
-    playSound(type);
-    setTimeout(() => setFeedback(null), 3000);
+    setTimeout(() => setFeedback(null), 3000); // Hide after 3 seconds
   };
 
   const handleScanSuccess = async (ticketId) => {
@@ -33,23 +28,23 @@ const Scanner = () => {
       ]);
 
       if (res.documents.length === 0) {
-        showFeedback('error', 'Ticket Not Found');
+        showFeedback('error', '❌ Ticket Not Found');
         return;
       }
 
       const ticket = res.documents[0];
 
       if (ticket.status === 'scanned') {
-        showFeedback('error', 'Ticket Already Used');
+        showFeedback('error', '❌ Ticket Already Used');
       } else {
         await databases.updateDocument(DATABASE_ID, TICKET_COLLECTION_ID, ticket.$id, {
           status: 'scanned',
         });
-        showFeedback('success', `Welcome ${ticket.name}!`);
+        showFeedback('success', `✅ Welcome ${ticket.name}!`);
       }
     } catch (err) {
       console.error(err);
-      showFeedback('error', 'Scan Error');
+      showFeedback('error', '❌ Scan Error');
     }
   };
 
@@ -81,7 +76,9 @@ const Scanner = () => {
 
       {feedback && (
         <div className={`feedback ${feedback.type}`}>
-          {feedback.type === 'success' ? '✔' : '✖'}
+          <div className="symbol">
+            {feedback.type === 'success' ? '✔' : '✖'}
+          </div>
           <p>{feedback.message}</p>
         </div>
       )}

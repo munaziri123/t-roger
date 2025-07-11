@@ -1,38 +1,42 @@
-.scanner-container {
-  text-align: center;
-  padding: 20px;
-}
-
 .feedback {
-  margin-top: 20px;
-  font-size: 40px;
-  font-weight: bold;
-  padding: 20px;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 30px 40px;
   border-radius: 20px;
-  animation: shake 0.5s;
-  display: inline-block;
-  transition: all 0.3s ease;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  animation: shake 0.4s ease-in-out 2;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
 .feedback.success {
-  color: white;
-  background: #4caf50;
+  background-color: #28a745;
 }
 
 .feedback.error {
-  color: white;
-  background: #f44336;
+  background-color: #dc3545;
 }
 
-.feedback p {
-  font-size: 18px;
-  margin: 10px 0 0 0;
+.symbol {
+  font-size: 50px;
+  margin-bottom: 10px;
+  animation: pop 0.3s ease-in-out;
 }
 
 @keyframes shake {
-  0% { transform: translateX(0px); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0px); }
+  0% { transform: translate(-50%, 0); }
+  25% { transform: translate(-50%, -5px); }
+  50% { transform: translate(-50%, 5px); }
+  75% { transform: translate(-50%, -5px); }
+  100% { transform: translate(-50%, 0); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.6); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
 }
