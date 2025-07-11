@@ -1,24 +1,23 @@
+/* Background container */
 .revenue-full-bg {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1e1e2f, #adc1e2);
+  background: linear-gradient(135deg, #0f172a, #1e293b);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  box-sizing: border-box;
 }
 
-/* Bank card */
+/* Card styling */
 .revenue-full-card {
-  width: 100%;
-  height: 100%;
-  max-width: 900px;
-  max-height: 600px;
-  background: linear-gradient(135deg, #4f46e5, #3b82f6);
-  border-radius: 20px;
+  width: 90%;
+  max-width: 450px;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  border-radius: 24px;
   color: white;
-  padding: 30px 40px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -29,74 +28,77 @@
   transform: scale(1.01);
 }
 
+/* Top section */
 .revenue-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .revenue-top h3 {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
 }
 
+/* Chip graphic (mock) */
 .revenue-chip {
-  width: 60px;
-  height: 40px;
-  background: #ffffff50;
-  border-radius: 10px;
+  width: 50px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+}
+
+/* Middle section: Balance */
+.revenue-middle {
+  margin-top: 30px;
 }
 
 .revenue-middle h1 {
-  font-size: 48px;
-  margin: 0;
+  font-size: 36px;
   font-weight: bold;
-  letter-spacing: 1px;
+  margin: 0;
+  color: #fff;
 }
 
-.revenue-bottom p {
+/* Bottom section */
+.revenue-bottom {
   font-size: 14px;
   opacity: 0.85;
-  margin: 0;
+  display: flex;
+  justify-content: space-between;
 }
 
-/* 🔄 Responsive full card on small screens */
-@media (max-width: 768px) {
-  .revenue-full-bg {
-    padding: 0;
-  }
-
+/* Responsive adjustments */
+@media (min-width: 1024px) {
   .revenue-full-card {
-    width: 100%;
-    height: 100vh;
-    border-radius: 0;
-    padding: 40px 25px;
-  }
-
-  .revenue-top h3 {
-    font-size: 20px;
+    max-width: 600px;
+    aspect-ratio: 18 / 9;
+    padding: 40px;
   }
 
   .revenue-middle h1 {
-    font-size: 36px;
-  }
-
-  .revenue-chip {
-    width: 50px;
-    height: 30px;
+    font-size: 48px;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .revenue-full-card {
-    padding: 30px 20px;
-  }
-
-  .revenue-top h3 {
-    font-size: 18px;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    padding: 20px;
   }
 
   .revenue-middle h1 {
     font-size: 28px;
+  }
+
+  .revenue-top h3 {
+    font-size: 16px;
+  }
+
+  .revenue-bottom {
+    flex-direction: column;
+    gap: 6px;
   }
 }
