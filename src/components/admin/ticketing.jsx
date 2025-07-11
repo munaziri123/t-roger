@@ -144,6 +144,7 @@ const Ticketing = () => {
       setTicketId(generatedId);
 
       ticketInfo.ticketId = generatedId;
+      ticketInfo.status = 'unscanned';
       // DO NOT save qrCode base64 string in Appwrite, just the ticketId
       // ticketInfo.qrCode = qrCodeBase64; // removed!
 
