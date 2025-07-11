@@ -28,12 +28,12 @@ const TotalRevenue = () => {
   useEffect(() => {
     fetchRevenue();
 
-
+  
     const unsubscribe = client.subscribe(
       `databases.${DATABASE_ID}.collections.${TICKET_COLLECTION_ID}.documents`,
       (response) => {
         if (response.events.includes('databases.*.collections.*.documents.*.create')) {
-          fetchRevenue(); // update on new ticket
+          fetchRevenue();
         }
       }
     );
@@ -42,14 +42,14 @@ const TotalRevenue = () => {
   }, []);
 
   return (
-    <div className="revenue-card-wrapper">
-      <div className="revenue-card">
+    <div className="revenue-full-bg">
+      <div className="revenue-full-card">
         <div className="revenue-top">
-          <h4>Total Revenue</h4>
-          <span className="revenue-chip" />
+          <h3>Total Revenue</h3>
+          <div className="revenue-chip" />
         </div>
         <div className="revenue-middle">
-          <h2>
+          <h1>
             <CountUp
               end={total}
               duration={1.5}
@@ -57,7 +57,7 @@ const TotalRevenue = () => {
               separator=","
               decimals={0}
             />
-          </h2>
+          </h1>
         </div>
         <div className="revenue-bottom">
           <p>Updated in real-time</p>

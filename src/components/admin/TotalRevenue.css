@@ -1,29 +1,29 @@
-.revenue-card-wrapper {
+.revenue-full-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e1e2f, #3b82f6);
   display: flex;
   justify-content: center;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #1e1e2f, #2b2b45);
-  min-height: 100vh;
   align-items: center;
+  padding: 20px;
 }
 
-.revenue-card {
-  width: 340px;
-  height: 200px;
-  border-radius: 16px;
+.revenue-full-card {
+  width: 100%;
+  max-width: 900px;
+  height: 300px;
   background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  border-radius: 20px;
   color: white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  padding: 24px;
+  padding: 30px 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-family: 'Segoe UI', sans-serif;
   transition: transform 0.3s ease;
 }
 
-.revenue-card:hover {
-  transform: scale(1.03);
+.revenue-full-card:hover {
+  transform: scale(1.01);
 }
 
 .revenue-top {
@@ -32,35 +32,48 @@
   align-items: center;
 }
 
-.revenue-top h4 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 1px;
+.revenue-top h3 {
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .revenue-chip {
-  width: 40px;
-  height: 28px;
-  background: #ffffff55;
-  border-radius: 6px;
+  width: 60px;
+  height: 40px;
+  background: #ffffff50;
+  border-radius: 10px;
 }
 
-.revenue-middle h2 {
-  font-size: 28px;
+.revenue-middle h1 {
+  font-size: 48px;
   margin: 0;
   font-weight: bold;
   letter-spacing: 1px;
 }
 
 .revenue-bottom p {
-  font-size: 12px;
+  font-size: 14px;
   opacity: 0.85;
   margin: 0;
 }
 
-.revenue-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Responsive */
+@media (max-width: 600px) {
+  .revenue-full-card {
+    height: 220px;
+    padding: 20px;
+  }
+
+  .revenue-top h3 {
+    font-size: 18px;
+  }
+
+  .revenue-middle h1 {
+    font-size: 32px;
+  }
+
+  .revenue-chip {
+    width: 50px;
+    height: 30px;
+  }
 }
