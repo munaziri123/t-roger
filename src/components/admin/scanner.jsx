@@ -1,10 +1,8 @@
-// Scanner.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { Client, Databases, Query } from 'appwrite';
 import './scanner.css';
 
-// Appwrite config
 const client = new Client()
   .setEndpoint('https://cloud.appwrite.io/v1')
   .setProject('6864c522003108b9b279');
@@ -14,75 +12,77 @@ const DATABASE_ID = '6864c596000a79f621ee';
 const TICKET_COLLECTION_ID = '686fbd05002b5b00e16a';
 
 const Scanner = () => {
-  const [feedback, setFeedback] = useState(null); 
+  const [feedback, setFeedback] = useState(null);
+  const scannerRef = useRef(null); // store scanner instance
 
   const showFeedback = (type, message) => {
     setFeedback({ type, message });
-    setTimeout(() => setFeedback(null), 3000); 
+    setTimeout(() => {
+      setFeedback(null);
+      startScanner(); // restart scanner after feedback disappears
+    }, 2500);
   };
 
   const handleScanSuccess = async (ticketId) => {
+    if (scannerRef.current) {
+      scannerRef.current.clear(); // stop scanner temporarily
+    }
+
     try {
       const res = await databases.listDocuments(DATABASE_ID, TICKET_COLLECTION_ID, [
         Query.equal('ticketId', ticketId),
       ]);
 
       if (res.documents.length === 0) {
-        showFeedback('error', '❌ Ticket Not Found');
+        showFeedback('error', 'Ticket Not Found');
         return;
       }
 
       const ticket = res.documents[0];
 
       if (ticket.status === 'scanned') {
-        showFeedback('error', '❌ Ticket Already Used');
+        showFeedback('error', 'Ticket Already Used');
       } else {
         await databases.updateDocument(DATABASE_ID, TICKET_COLLECTION_ID, ticket.$id, {
           status: 'scanned',
         });
-        showFeedback('success', `✅ Welcome ${ticket.name}!`);
+        showFeedback('success', `Welcome ${ticket.name}!`);
       }
     } catch (err) {
       console.error(err);
-      showFeedback('error', '❌ Scan Error');
+      showFeedback('error', 'Scan Error');
     }
+  };
+
+  const startScanner = () => {
+    if (!scannerRef.current) {
+      scannerRef.current = new Html5QrcodeScanner('qr-reader', {
+        fps: 10,
+        qrbox: 250,
+        rememberLastUsedCamera: true,
+        showTorchButtonIfSupported: true,
+      });
+    }
+
+    scannerRef.current.render(
+      (decodedText) => {
+        handleScanSuccess(decodedText);
+      },
+      (error) => {
+        console.warn(error);
+      }
+    );
   };
 
   useEffect(() => {
-  const lastCameraId = localStorage.getItem('preferredCameraId');
+    startScanner();
 
-  const scanner = new Html5QrcodeScanner('qr-reader', {
-    fps: 10,
-    qrbox: 250,
-    rememberLastUsedCamera: true, // This is optional, but helps
-  });
-
-  scanner.render(
-    async (decodedText, result) => {
-      handleScanSuccess(decodedText);
-      await scanner.clear();
-    },
-    (errorMessage) => {
-      console.warn(errorMessage);
-    }
-  );
-
-  // Listen to camera change
-  const interval = setInterval(() => {
-    const selector = document.querySelector('#qr-reader select');
-    if (selector) {
-      selector.addEventListener('change', (e) => {
-        localStorage.setItem('preferredCameraId', e.target.value);
-      });
-      clearInterval(interval);
-    }
-  }, 500);
-
-  return () => {
-    scanner.clear().catch(console.error);
-  };
-}, []);
-
+    return () => {
+      if (scannerRef.current) {
+        scannerRef.current.clear().catch(console.error);
+      }
+    };
+  }, []);
 
   return (
     <div className="scanner-container">
@@ -91,9 +91,7 @@ const Scanner = () => {
 
       {feedback && (
         <div className={`feedback ${feedback.type}`}>
-          <div className="symbol">
-            {feedback.type === 'success' ? '✔' : '✖'}
-          </div>
+          {feedback.type === 'success' ? '✔' : '✖'}
           <p>{feedback.message}</p>
         </div>
       )}
