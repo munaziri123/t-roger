@@ -189,13 +189,35 @@ const Ticketing = () => {
 };
 
   const handlePrint = () => {
-    if (!pdfDoc) return;
-    pdfDoc.autoPrint();
-    window.open(pdfDoc.output('bloburl'), '_blank');
+  if (!pdfDoc) return;
+
+  const blob = pdfDoc.output('blob');
+  const blobUrl = URL.createObjectURL(blob);
+
+  const iframe = document.createElement('iframe');
+  iframe.style.position = 'fixed';
+  iframe.style.right = '0';
+  iframe.style.bottom = '0';
+  iframe.style.width = '0';
+  iframe.style.height = '0';
+  iframe.style.border = 'none';
+  iframe.src = blobUrl;
+
+  document.body.appendChild(iframe);
+
+  iframe.onload = () => {
     setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 1000);
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+      // Optional: redirect after a short delay
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+        window.location.href = '/dashboard/ticketing';
+      }, 2000);
+    }, 500);
   };
+};
+
 
   return (
     <div className="ticketing-container">
