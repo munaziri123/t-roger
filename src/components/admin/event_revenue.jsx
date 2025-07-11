@@ -42,7 +42,8 @@ const TotalRevenue = () => {
   }, []);
 
   return (
-    <div className="revenue-full-bg">
+  <div className="revenue-full-bg">
+    <div className="revenue-container">
       <div className="revenue-full-card">
         <div className="revenue-top">
           <h3>Total Revenue</h3>
@@ -50,21 +51,17 @@ const TotalRevenue = () => {
         </div>
         <div className="revenue-middle">
           <h1>
-            <CountUp
-              end={total}
-              duration={1.5}
-              prefix="RWF "
-              separator=","
-              decimals={0}
-            />
+            <CountUp end={total} duration={1.5} prefix="RWF " separator="," />
           </h1>
-        </div>
-        <div className="revenue-bottom">
-          <p>Updated in real-time</p>
         </div>
       </div>
     </div>
-  );
+    <div className="revenue-bottom">
+      <p>Updated in real-time</p>
+    </div>
+  </div>
+);
+
 };
 
 export default TotalRevenue;
