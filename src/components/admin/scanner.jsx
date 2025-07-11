@@ -1,6 +1,5 @@
-// src/components/admin/Scanner.jsx
-import React, { useEffect, useState } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import React, { useEffect, useState, useRef } from 'react';
+import { Html5Qrcode } from 'html5-qrcode';
 import { Client, Databases, Query } from 'appwrite';
 import './scanner.css';
 
@@ -13,15 +12,14 @@ const DATABASE_ID = '6864c596000a79f621ee';
 const TICKET_COLLECTION_ID = '686fbd05002b5b00e16a';
 
 const Scanner = () => {
+  const [scanning, setScanning] = useState(false);
   const [feedback, setFeedback] = useState(null);
-  const [scannerStarted, setScannerStarted] = useState(false);
-  const [scannerInstance, setScannerInstance] = useState(null);
+  const scannerRef = useRef(null);
+  const html5QrCodeRef = useRef(null);
 
   const showFeedback = (type, message) => {
     setFeedback({ type, message });
-    setTimeout(() => {
-      setFeedback(null);
-    }, 3000);
+    setTimeout(() => setFeedback(null), 3000);
   };
 
   const handleScanSuccess = async (ticketId) => {
@@ -46,37 +44,50 @@ const Scanner = () => {
         showFeedback('success', `✅ Welcome ${ticket.name}`);
       }
 
-      stopScanner(); // auto-stop after scan
+      stopScanner();
     } catch (err) {
       console.error(err);
       showFeedback('error', '❌ Scan Error');
     }
   };
 
-  const startScanner = () => {
-    if (scannerStarted) return;
+  const startScanner = async () => {
+    if (scanning || !scannerRef.current) return;
 
-    const scanner = new Html5QrcodeScanner('qr-reader', {
-      fps: 10,
-      qrbox: 250,
-      rememberLastUsedCamera: true,
-      supportedScanTypes: [Html5QrcodeScanner.SCAN_TYPE_CAMERA],
-    });
+    const html5QrCode = new Html5Qrcode(scannerRef.current.id);
+    html5QrCodeRef.current = html5QrCode;
 
-    scanner.render(
-      (decodedText) => handleScanSuccess(decodedText),
-      (error) => console.warn('Scan error', error)
-    );
+    try {
+      const cameras = await Html5Qrcode.getCameras();
+      if (cameras && cameras.length > 0) {
+        setScanning(true);
 
-    setScannerInstance(scanner);
-    setScannerStarted(true);
+        html5QrCode.start(
+          { facingMode: 'environment' },
+          {
+            fps: 10,
+            qrbox: { width: 250, height: 250 },
+            rememberLastUsedCamera: true,
+          },
+          handleScanSuccess,
+          (err) => {
+            console.warn('Scan Error', err);
+          }
+        );
+      } else {
+        alert('No camera found');
+      }
+    } catch (err) {
+      console.error('Camera error', err);
+    }
   };
 
   const stopScanner = () => {
-    if (scannerInstance) {
-      scannerInstance.clear().then(() => {
-        setScannerStarted(false);
-        setScannerInstance(null);
+    if (html5QrCodeRef.current) {
+      html5QrCodeRef.current.stop().then(() => {
+        html5QrCodeRef.current.clear();
+        html5QrCodeRef.current = null;
+        setScanning(false);
       });
     }
   };
@@ -85,15 +96,20 @@ const Scanner = () => {
     <div className="scanner-wrapper">
       <h1 className="scanner-title">🎫 Ticket Scanner</h1>
 
-      {!scannerStarted && (
+      {!scanning && (
         <button className="primary-btn" onClick={startScanner}>Start Scanning</button>
       )}
 
-      {scannerStarted && (
-        <div className="scanner-actions">
-          <div id="qr-reader" style={{ width: '100%' }}></div>
-          <button className="stop-btn" onClick={stopScanner}>Stop Scanning</button>
-        </div>
+      <div
+        id="qr-reader"
+        ref={scannerRef}
+        style={{ width: '100%', maxWidth: 400, marginTop: '20px' }}
+      />
+
+      {scanning && (
+        <button className="stop-btn" onClick={stopScanner}>
+          Stop Scanning
+        </button>
       )}
 
       {feedback && (
