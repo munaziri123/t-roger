@@ -14,11 +14,11 @@ const DATABASE_ID = '6864c596000a79f621ee';
 const TICKET_COLLECTION_ID = '686fbd05002b5b00e16a';
 
 const Scanner = () => {
-  const [feedback, setFeedback] = useState(null); // { type: 'success' | 'error', message: string }
+  const [feedback, setFeedback] = useState(null); 
 
   const showFeedback = (type, message) => {
     setFeedback({ type, message });
-    setTimeout(() => setFeedback(null), 3000); // Hide after 3 seconds
+    setTimeout(() => setFeedback(null), 3000); 
   };
 
   const handleScanSuccess = async (ticketId) => {
@@ -49,25 +49,40 @@ const Scanner = () => {
   };
 
   useEffect(() => {
-    const scanner = new Html5QrcodeScanner('qr-reader', {
-      fps: 10,
-      qrbox: 250,
-    });
+  const lastCameraId = localStorage.getItem('preferredCameraId');
 
-    scanner.render(
-      (decodedText) => {
-        handleScanSuccess(decodedText);
-        scanner.clear();
-      },
-      (err) => {
-        console.warn(err);
-      }
-    );
+  const scanner = new Html5QrcodeScanner('qr-reader', {
+    fps: 10,
+    qrbox: 250,
+    rememberLastUsedCamera: true, // This is optional, but helps
+  });
 
-    return () => {
-      scanner.clear().catch(console.error);
-    };
-  }, []);
+  scanner.render(
+    async (decodedText, result) => {
+      handleScanSuccess(decodedText);
+      await scanner.clear();
+    },
+    (errorMessage) => {
+      console.warn(errorMessage);
+    }
+  );
+
+  // Listen to camera change
+  const interval = setInterval(() => {
+    const selector = document.querySelector('#qr-reader select');
+    if (selector) {
+      selector.addEventListener('change', (e) => {
+        localStorage.setItem('preferredCameraId', e.target.value);
+      });
+      clearInterval(interval);
+    }
+  }, 500);
+
+  return () => {
+    scanner.clear().catch(console.error);
+  };
+}, []);
+
 
   return (
     <div className="scanner-container">

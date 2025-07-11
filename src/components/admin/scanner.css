@@ -40,3 +40,31 @@
   0% { transform: scale(0.6); opacity: 0.5; }
   100% { transform: scale(1); opacity: 1; }
 }
+
+/* Style camera switch dropdown */
+#qr-reader select {
+  margin-top: 1rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 2px solid #ccc;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.2s ease;
+  outline: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+#qr-reader select:hover {
+  border-color: #999;
+}
+
+#qr-reader select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+#qr-reader__dashboard_section_csr span {
+  font-size: 1rem;
+  color: #555;
+}
