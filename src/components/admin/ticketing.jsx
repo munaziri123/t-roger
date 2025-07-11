@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Client, Databases, Query } from 'appwrite';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
@@ -39,7 +39,7 @@ const Ticketing = () => {
     });
   };
 
-  const generatePdfDoc = async (ticket, qrCodeBase64) => {
+  const generatePdfDoc = async (ticket) => {
     const doc = new jsPDF({
       orientation: 'landscape',
       unit: 'mm',
@@ -48,6 +48,9 @@ const Ticketing = () => {
 
     const logoUrl = 'https://raw.githubusercontent.com/munaziri123/t-roger/main/public/react.jpg';
     const logoBase64 = await getBase64FromUrl(logoUrl);
+
+    // Generate QR code base64 from ticketId on the fly
+    const qrCodeBase64 = await QRCode.toDataURL(ticket.ticketId);
 
     const currentDate = new Date().toLocaleDateString();
     const expiryDate = new Date();
@@ -81,6 +84,12 @@ const Ticketing = () => {
 
     return doc;
   };
+
+  useEffect(() => {
+    if (ticketId) {
+      QRCode.toDataURL(ticketId).then(setQrImage);
+    }
+  }, [ticketId]);
 
   const handleGenerateTicket = async () => {
     if (isRegistered && (!refId || !fee)) {
@@ -134,11 +143,9 @@ const Ticketing = () => {
       const generatedId = uuidv4();
       setTicketId(generatedId);
 
-      const qrCodeBase64 = await QRCode.toDataURL(generatedId);
-      setQrImage(qrCodeBase64);
-
       ticketInfo.ticketId = generatedId;
-      ticketInfo.qrCode = qrCodeBase64;
+      // DO NOT save qrCode base64 string in Appwrite, just the ticketId
+      // ticketInfo.qrCode = qrCodeBase64; // removed!
 
       const createRes = await databases.createDocument(
         DATABASE_ID,
@@ -149,7 +156,7 @@ const Ticketing = () => {
 
       ticketInfo.id = createRes.$id;
 
-      const doc = await generatePdfDoc(ticketInfo, qrCodeBase64);
+      const doc = await generatePdfDoc(ticketInfo);
       setTicketData(ticketInfo);
       setPdfDoc(doc);
       setModalOpen(true);
