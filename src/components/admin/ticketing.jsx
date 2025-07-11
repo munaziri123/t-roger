@@ -174,24 +174,25 @@ const Ticketing = () => {
     <div className="ticketing-container">
       <h2>🎫 Generate Event Ticket</h2>
 
-      <div className="form-group">
-        <label>
-          <input
-            type="radio"
-            checked={isRegistered}
-            onChange={() => setIsRegistered(true)}
-          />
-          Registered User
-        </label>
-        <label style={{ marginLeft: '20px' }}>
-          <input
-            type="radio"
-            checked={!isRegistered}
-            onChange={() => setIsRegistered(false)}
-          />
-          Unregistered User
-        </label>
-      </div>
+      <div className="radio-options">
+  <label>
+    <input
+      type="radio"
+      checked={isRegistered}
+      onChange={() => setIsRegistered(true)}
+    />
+    Registered User
+  </label>
+  <label>
+    <input
+      type="radio"
+      checked={!isRegistered}
+      onChange={() => setIsRegistered(false)}
+    />
+    Unregistered User
+  </label>
+</div>
+
 
       {isRegistered ? (
         <>
