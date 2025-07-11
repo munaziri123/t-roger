@@ -28,8 +28,8 @@ const TotalRevenue = () => {
   useEffect(() => {
     fetchRevenue();
 
-    const realtime = new Realtime(client);
-    const unsubscribe = realtime.subscribe(
+
+    const unsubscribe = client.subscribe(
       `databases.${DATABASE_ID}.collections.${TICKET_COLLECTION_ID}.documents`,
       (response) => {
         if (response.events.includes('databases.*.collections.*.documents.*.create')) {
