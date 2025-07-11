@@ -172,8 +172,21 @@ const Ticketing = () => {
   const handleDownload = () => {
     if (!pdfDoc) return;
     pdfDoc.save(`T-Roger_Ticket_${ticketData.id || ticketData.refId}.pdf`);
-    window.location.href = '/dashboard';
+    window.location.href = '/dashboard/ticketing';
   };
+
+  const handleCancel = () => {
+  // Clear all form fields
+  setName('');
+  setEmail('');
+  setFee('');
+  setRefId('');
+  setTicketData(null);
+  setPdfDoc(null);
+  setTicketId('');
+  setQrImage('');
+  setModalOpen(false);
+};
 
   const handlePrint = () => {
     if (!pdfDoc) return;
@@ -281,13 +294,14 @@ const Ticketing = () => {
               </div>
             )}
 
-            <p><em>Welcome to the T-Roger party! 🎉</em></p>
+            <p><em>Welcome to the T-Roger party!</em></p>
             <p><small>Valid Until: {(new Date(Date.now() + 24 * 60 * 60 * 1000)).toLocaleDateString()}</small></p>
 
             <div className="modal-buttons">
               <button onClick={handlePrint}>Print Ticket</button>
               <button onClick={handleDownload}>Download PDF</button>
-              <button onClick={() => setModalOpen(false)}>Close</button>
+              <button onClick={handleCancel}>close</button>
+
             </div>
           </div>
         </div>
