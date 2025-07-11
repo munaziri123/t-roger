@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, Routes, Route, Outlet } from 'react-router-dom';
 import { Query } from 'appwrite';
 import { Client, Databases } from 'appwrite';
-import Ticketing from './ticketing.jsx'; // Import Ticketing component
+import Ticketing from './ticketing.jsx';
+import EventRevenue from './event_revenue.jsx';
 import TicketsChecking from './scanner.jsx';
 import './dashbord.css';
 
@@ -155,6 +156,7 @@ const Dashboard = () => {
           } />
           <Route path="ticketing" element={<Ticketing />} />
           <Route path="tickets_checking" element={<TicketsChecking />} />
+          <Route path="payments" element={<EventRevenue />} />
         </Routes>
       </main>
     </div>
