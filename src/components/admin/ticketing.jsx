@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { Client, Databases, Query } from 'appwrite';
 import jsPDF from 'jspdf';
+import QRCode from 'qrcode';
+import { v4 as uuidv4 } from 'uuid';
 import './ticketing.css';
 
+// Appwrite setup
 const client = new Client()
   .setEndpoint('https://cloud.appwrite.io/v1')
   .setProject('6864c522003108b9b279');
 
 const databases = new Databases(client);
-
-const DATABASE_ID = '6864c596000a79f621ee'; // Your DB id
-const REG_COLLECTION_ID = '6864c74c000479f76901'; // Registration collection
-const TICKET_COLLECTION_ID = '686fbd05002b5b00e16a'; // NEW tickets collection ID
+const DATABASE_ID = '6864c596000a79f621ee';
+const REG_COLLECTION_ID = '6864c74c000479f76901';
+const TICKET_COLLECTION_ID = '686fbd05002b5b00e16a';
 
 const Ticketing = () => {
   const [isRegistered, setIsRegistered] = useState(true);
@@ -23,6 +25,8 @@ const Ticketing = () => {
   const [ticketData, setTicketData] = useState(null);
   const [pdfDoc, setPdfDoc] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [ticketId, setTicketId] = useState('');
+  const [qrImage, setQrImage] = useState('');
 
   const getBase64FromUrl = async (url) => {
     const response = await fetch(url);
@@ -35,7 +39,7 @@ const Ticketing = () => {
     });
   };
 
-  const generatePdfDoc = async (ticket) => {
+  const generatePdfDoc = async (ticket, qrCodeBase64) => {
     const doc = new jsPDF({
       orientation: 'landscape',
       unit: 'mm',
@@ -53,23 +57,25 @@ const Ticketing = () => {
       doc.addImage(logoBase64, 'JPEG', 10, 10, 30, 30);
     }
 
+    if (qrCodeBase64) {
+      doc.addImage(qrCodeBase64, 'JPEG', 160, 10, 30, 30);
+    }
+
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(18);
     doc.text('T-ROGER EVENT TICKET', 50, 20);
 
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-
     doc.text(`Date: ${currentDate}`, 50, 30);
     doc.text(`Name: ${ticket.name}`, 50, 38);
     doc.text(`Reg No: ${ticket.refId || 'N/A'}`, 50, 46);
     doc.text(`Email: ${ticket.email || 'N/A'}`, 50, 54);
     doc.text(`Fee: ${ticket.fee} RWF`, 50, 62);
+    doc.text(`Ticket ID: ${ticket.ticketId}`, 50, 70);
 
     doc.setFont('helvetica', 'italic');
-    doc.text('Welcome to the T-Roger party! 🎉', 50, 74);
-    doc.text('Wishing you success and enjoyment.', 50, 82);
-
+    doc.text('Welcome to the T-Roger party! 🎉', 50, 82);
     doc.setFont('helvetica', 'bold');
     doc.text(`Valid Until: ${expiryDate.toLocaleDateString()}`, 50, 94);
 
@@ -77,16 +83,14 @@ const Ticketing = () => {
   };
 
   const handleGenerateTicket = async () => {
-    if (isRegistered) {
-      if (!refId || !fee) {
-        alert('Please enter both registration number and fee.');
-        return;
-      }
-    } else {
-      if (!name || !email || !fee) {
-        alert('Please enter your name, email, and fee.');
-        return;
-      }
+    if (isRegistered && (!refId || !fee)) {
+      alert('Please enter both registration number and fee.');
+      return;
+    }
+
+    if (!isRegistered && (!name || !email || !fee)) {
+      alert('Please enter your name, email, and fee.');
+      return;
     }
 
     setLoading(true);
@@ -95,7 +99,6 @@ const Ticketing = () => {
       let ticketInfo;
 
       if (isRegistered) {
-        // Verify reg number exists
         const res = await databases.listDocuments(DATABASE_ID, REG_COLLECTION_ID, [
           Query.equal('refId', refId),
         ]);
@@ -115,9 +118,8 @@ const Ticketing = () => {
           paidAt: new Date().toISOString(),
         };
       } else {
-        // Unregistered user creates ticket directly
         const randomNumber = Math.floor(100000 + Math.random() * 900000);
-        const namePrefix = name.trim().substring(0, 4).toUpperCase();  // <== FIX: define namePrefix here
+        const namePrefix = name.trim().substring(0, 4).toUpperCase();
         const Id = `TRF${randomNumber}${namePrefix}VISITOR`;
 
         ticketInfo = {
@@ -129,19 +131,25 @@ const Ticketing = () => {
         };
       }
 
-      // Save ticket to new tickets collection
+      const generatedId = uuidv4();
+      setTicketId(generatedId);
+
+      const qrCodeBase64 = await QRCode.toDataURL(generatedId);
+      setQrImage(qrCodeBase64);
+
+      ticketInfo.ticketId = generatedId;
+      ticketInfo.qrCode = qrCodeBase64;
+
       const createRes = await databases.createDocument(
         DATABASE_ID,
         TICKET_COLLECTION_ID,
-        'unique()', // let Appwrite generate unique ID
+        'unique()',
         ticketInfo
       );
 
-      // Attach ticket id to ticketInfo for display
       ticketInfo.id = createRes.$id;
 
-      const doc = await generatePdfDoc(ticketInfo);
-
+      const doc = await generatePdfDoc(ticketInfo, qrCodeBase64);
       setTicketData(ticketInfo);
       setPdfDoc(doc);
       setModalOpen(true);
@@ -156,7 +164,6 @@ const Ticketing = () => {
   const handleDownload = () => {
     if (!pdfDoc) return;
     pdfDoc.save(`T-Roger_Ticket_${ticketData.id || ticketData.refId}.pdf`);
-    // After download, redirect to dashboard
     window.location.href = '/dashboard';
   };
 
@@ -164,7 +171,6 @@ const Ticketing = () => {
     if (!pdfDoc) return;
     pdfDoc.autoPrint();
     window.open(pdfDoc.output('bloburl'), '_blank');
-    // After print, redirect to dashboard
     setTimeout(() => {
       window.location.href = '/dashboard';
     }, 1000);
@@ -175,24 +181,23 @@ const Ticketing = () => {
       <h2>🎫 Generate Event Ticket</h2>
 
       <div className="radio-options">
-  <label>
-    <input
-      type="radio"
-      checked={isRegistered}
-      onChange={() => setIsRegistered(true)}
-    />
-    Registered User
-  </label>
-  <label>
-    <input
-      type="radio"
-      checked={!isRegistered}
-      onChange={() => setIsRegistered(false)}
-    />
-    Unregistered User
-  </label>
-</div>
-
+        <label>
+          <input
+            type="radio"
+            checked={isRegistered}
+            onChange={() => setIsRegistered(true)}
+          />
+          Registered User
+        </label>
+        <label>
+          <input
+            type="radio"
+            checked={!isRegistered}
+            onChange={() => setIsRegistered(false)}
+          />
+          Unregistered User
+        </label>
+      </div>
 
       {isRegistered ? (
         <>
@@ -251,7 +256,6 @@ const Ticketing = () => {
         {loading ? 'Generating Ticket...' : '🎉 Welcome'}
       </button>
 
-      {/* Modal for ticket display */}
       {modalOpen && ticketData && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -260,6 +264,15 @@ const Ticketing = () => {
             <p><strong>Registration Number:</strong> {ticketData.refId || 'N/A'}</p>
             <p><strong>Email:</strong> {ticketData.email || 'N/A'}</p>
             <p><strong>Fee:</strong> {ticketData.fee} RWF</p>
+            <p><strong>Ticket ID:</strong> {ticketData.ticketId}</p>
+
+            {qrImage && (
+              <div style={{ marginTop: '10px' }}>
+                <img src={qrImage} alt="QR Code" width={120} height={120} />
+                <p style={{ fontSize: '10px', wordBreak: 'break-word' }}>{ticketData.ticketId}</p>
+              </div>
+            )}
+
             <p><em>Welcome to the T-Roger party! 🎉</em></p>
             <p><small>Valid Until: {(new Date(Date.now() + 24 * 60 * 60 * 1000)).toLocaleDateString()}</small></p>
 
