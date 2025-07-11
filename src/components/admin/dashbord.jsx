@@ -130,7 +130,7 @@ const Dashboard = () => {
           <li>
             <Link to="/dashboard/tickets_checking" onClick={closeSidebar}>check tickets
             </Link></li>
-          <li>Payments</li>
+          <li>Payments Revenue</li>
           <li>Statistics</li>
         </ul>
       </aside>
